@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-primary: #10b981;
+  --color-primary-hover: #34d399;
+  --color-dark: #020617;
+  --color-dark-accent: #0f172a;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-sans text-slate-900 antialiased;
+  }
+
+  /* Accessibility: prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Accessibility: visible focus-visible rings for keyboard nav */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-white font-semibold shadow-lg shadow-emerald-500/20 transition-all duration-200 hover:bg-primary-hover hover:-translate-y-0.5 active:translate-y-0 cursor-pointer;
+  }
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 text-white font-semibold transition-all duration-200 hover:bg-white/10 hover:border-white/40 cursor-pointer;
+  }
+  .section-padding {
+    @apply py-20 lg:py-32;
+  }
+}
