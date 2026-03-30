@@ -68,6 +68,12 @@ const Navbar = ({ onGalleryClick, onAboutClick, onLogoClick, onNavLinkClick }: {
         </button>
 
         <div className="hidden md:flex items-center gap-8">
+          <button
+            onClick={onAboutClick}
+            className="text-slate-300 hover:text-white text-sm font-medium transition-colors cursor-pointer"
+          >
+            About
+          </button>
           {['Services', 'Process', 'Testimonials'].map((item) => (
             <button
               key={item}
@@ -82,12 +88,6 @@ const Navbar = ({ onGalleryClick, onAboutClick, onLogoClick, onNavLinkClick }: {
             className="text-slate-300 hover:text-white text-sm font-medium transition-colors cursor-pointer"
           >
             Gallery
-          </button>
-          <button
-            onClick={onAboutClick}
-            className="text-slate-300 hover:text-white text-sm font-medium transition-colors cursor-pointer"
-          >
-            About
           </button>
           <a href={`tel:${config.contact.phone}`} className="hidden lg:flex items-center gap-2 text-slate-300 hover:text-white text-sm font-medium transition-colors">
             <Phone className="w-4 h-4 text-primary" aria-hidden="true" /> {config.contact.phone}
@@ -117,6 +117,12 @@ const Navbar = ({ onGalleryClick, onAboutClick, onLogoClick, onNavLinkClick }: {
             className="md:hidden bg-dark-accent border-b border-white/10 overflow-hidden"
           >
             <div className="px-6 py-8 flex flex-col gap-6">
+              <button
+                onClick={() => { onAboutClick(); setIsMobileMenuOpen(false); }}
+                className="text-left text-slate-300 text-lg font-medium cursor-pointer"
+              >
+                About
+              </button>
               {['Services', 'Process', 'Testimonials'].map((item) => (
                 <button
                   key={item}
@@ -131,12 +137,6 @@ const Navbar = ({ onGalleryClick, onAboutClick, onLogoClick, onNavLinkClick }: {
                 className="text-left text-slate-300 text-lg font-medium cursor-pointer"
               >
                 Gallery
-              </button>
-              <button
-                onClick={() => { onAboutClick(); setIsMobileMenuOpen(false); }}
-                className="text-left text-slate-300 text-lg font-medium cursor-pointer"
-              >
-                About
               </button>
               <a href={`tel:${config.contact.phone}`} className="flex items-center gap-2 text-primary text-lg font-semibold">
                 <Phone className="w-5 h-5" aria-hidden="true" /> {config.contact.phone}

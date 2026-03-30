@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { ArrowRight, CheckCircle2, Hammer, Wrench, Bath, Home, Layers } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2, Hammer, Wrench, Bath, Home, Layers } from 'lucide-react';
 import config from '../siteConfig';
 
 interface Props {
@@ -20,6 +20,14 @@ const AboutUs = ({ onNavigateToContact, onNavigateHome }: Props) => {
 
             {/* Header */}
             <section className="bg-dark-accent border-b border-white/10 pt-32 pb-16">
+                <div className="max-w-4xl mx-auto px-6">
+                    <button
+                        onClick={onNavigateHome}
+                        className="flex items-center gap-2 text-slate-400 hover:text-white text-sm mb-8 transition-colors cursor-pointer"
+                    >
+                        <ArrowLeft className="w-4 h-4" /> Back to Home
+                    </button>
+                </div>
                 <div className="max-w-4xl mx-auto px-6 text-center">
                     <span className="inline-block bg-primary/15 text-primary text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest mb-6">
                         Who We Are
