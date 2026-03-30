@@ -1,6 +1,59 @@
-import { motion } from 'motion/react';
-import { ArrowLeft, MapPin, Calendar, Ruler, ArrowRight, Grid2x2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ArrowLeft, MapPin, Calendar, Ruler, ArrowRight, Grid2x2, X } from 'lucide-react';
 import config from '../siteConfig';
+
+interface LightboxImage {
+    url: string;
+    alt: string;
+    caption?: string;
+}
+
+const Lightbox = ({ image, onClose }: { image: LightboxImage; onClose: () => void }) => {
+    useEffect(() => {
+        const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
+    }, [onClose]);
+
+    return (
+        <AnimatePresence>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+                onClick={onClose}
+            >
+                <button
+                    onClick={onClose}
+                    className="absolute top-5 right-5 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer"
+                    aria-label="Close"
+                >
+                    <X className="w-5 h-5" />
+                </button>
+
+                <motion.div
+                    initial={{ scale: 0.92, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.92, opacity: 0 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    className="relative max-w-5xl w-full max-h-[90vh] flex flex-col items-center"
+                    onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                >
+                    <img
+                        src={image.url}
+                        alt={image.alt}
+                        className="rounded-2xl object-contain max-h-[80vh] w-full shadow-2xl"
+                    />
+                    {image.caption && (
+                        <p className="text-slate-400 text-sm mt-4 text-center">{image.caption}</p>
+                    )}
+                </motion.div>
+            </motion.div>
+        </AnimatePresence>
+    );
+};
 
 interface Props {
     galleryId: string;
@@ -9,6 +62,7 @@ interface Props {
 }
 
 const GalleryDetail = ({ galleryId, onBack, onNavigateToContact }: Props) => {
+    const [lightboxImage, setLightboxImage] = useState<LightboxImage | null>(null);
     const gallery = config.galleries?.find((g) => g.id === galleryId);
 
     if (!gallery) {
@@ -28,6 +82,7 @@ const GalleryDetail = ({ galleryId, onBack, onNavigateToContact }: Props) => {
 
     return (
         <div className="min-h-screen bg-dark">
+            {lightboxImage && <Lightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />}
             {/* Page Header */}
             <section className="bg-dark-accent border-b border-white/10 pt-32 pb-12">
                 <div className="max-w-7xl mx-auto px-6">
@@ -87,12 +142,13 @@ const GalleryDetail = ({ galleryId, onBack, onNavigateToContact }: Props) => {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="relative rounded-3xl overflow-hidden"
+                    className="relative rounded-3xl overflow-hidden group cursor-zoom-in"
+                    onClick={() => setLightboxImage(heroImage)}
                 >
                     <img
                         src={heroImage.url}
                         alt={heroImage.alt}
-                        className="w-full h-[480px] lg:h-[600px] object-cover"
+                        className="w-full h-[480px] lg:h-[600px] object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {heroImage.caption && (
                         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark/80 to-transparent px-8 py-6">
@@ -165,11 +221,10 @@ const GalleryDetail = ({ galleryId, onBack, onNavigateToContact }: Props) => {
                                         initial={{ opacity: 0, scale: 0.97 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={{ delay: 0.1 + i * 0.08 }}
-                                        className={`relative rounded-2xl overflow-hidden group ${
-                                            restImages.length === 3 && i === 2
-                                                ? 'col-span-2'
-                                                : ''
+                                        className={`relative rounded-2xl overflow-hidden group cursor-zoom-in ${
+                                            restImages.length === 3 && i === 2 ? 'col-span-2' : ''
                                         }`}
+                                        onClick={() => setLightboxImage(img)}
                                     >
                                         <img
                                             src={img.url}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useGoogleReviews, type GoogleReview } from './hooks/useGoogleReviews';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowRight,
@@ -25,17 +26,19 @@ import config from './siteConfig';
 import GalleryCatalog from './pages/GalleryCatalog';
 import GalleryDetail from './pages/GalleryDetail';
 import ServiceDetail from './pages/ServiceDetail';
+import AboutUs from './pages/AboutUs';
 import { SocialIcons } from './SocialIcons';
 
 // ─── Routing ─────────────────────────────────────────────────────────
 
 type PageState =
   | { id: 'home' }
+  | { id: 'about' }
   | { id: 'gallery' }
   | { id: 'gallery-detail'; galleryId: string }
   | { id: 'service-detail'; serviceId: string };
 
-const Navbar = ({ onGalleryClick, onLogoClick, onNavLinkClick }: { onGalleryClick: () => void; onLogoClick: () => void; onNavLinkClick: (section: string) => void }) => {
+const Navbar = ({ onGalleryClick, onAboutClick, onLogoClick, onNavLinkClick }: { onGalleryClick: () => void; onAboutClick: () => void; onLogoClick: () => void; onNavLinkClick: (section: string) => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -80,6 +83,12 @@ const Navbar = ({ onGalleryClick, onLogoClick, onNavLinkClick }: { onGalleryClic
           >
             Gallery
           </button>
+          <button
+            onClick={onAboutClick}
+            className="text-slate-300 hover:text-white text-sm font-medium transition-colors cursor-pointer"
+          >
+            About
+          </button>
           <a href={`tel:${config.contact.phone}`} className="hidden lg:flex items-center gap-2 text-slate-300 hover:text-white text-sm font-medium transition-colors">
             <Phone className="w-4 h-4 text-primary" aria-hidden="true" /> {config.contact.phone}
           </a>
@@ -122,6 +131,12 @@ const Navbar = ({ onGalleryClick, onLogoClick, onNavLinkClick }: { onGalleryClic
                 className="text-left text-slate-300 text-lg font-medium cursor-pointer"
               >
                 Gallery
+              </button>
+              <button
+                onClick={() => { onAboutClick(); setIsMobileMenuOpen(false); }}
+                className="text-left text-slate-300 text-lg font-medium cursor-pointer"
+              >
+                About
               </button>
               <a href={`tel:${config.contact.phone}`} className="flex items-center gap-2 text-primary text-lg font-semibold">
                 <Phone className="w-5 h-5" aria-hidden="true" /> {config.contact.phone}
@@ -400,7 +415,7 @@ const LifestylePillars = () => {
 const Services = ({ onNavigateToService }: { onNavigateToService: (serviceId: string) => void }) => {
   return (
     <section id="services" className="section-padding bg-slate-50">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-2">
         <div className="text-center mb-20">
           <h2 className="text-primary font-bold tracking-widest text-sm uppercase mb-4">{config.sectionHeaders.servicesLabel}</h2>
           <h3 className="text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
@@ -411,7 +426,7 @@ const Services = ({ onNavigateToService }: { onNavigateToService: (serviceId: st
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {SERVICES.map((service, i) => (
             <motion.div
               key={service.id}
@@ -501,6 +516,15 @@ const HowItWorks = () => {
 };
 
 const Testimonials = () => {
+  const { reviews: liveReviews, rating, userRatingCount, loading } = useGoogleReviews(config.contact.googlePlaceId);
+
+  const reviews: GoogleReview[] = liveReviews.length > 0
+    ? liveReviews
+    : TESTIMONIALS.map(t => ({ quote: t.quote, name: t.name, rating: t.rating, profilePhoto: null, relativeTime: t.location }));
+
+  const displayRating = rating?.toFixed(1) ?? config.testimonials.averageRating;
+  const displayCount = userRatingCount?.toString() ?? config.testimonials.reviewCount;
+
   return (
     <section id="testimonials" className="section-padding bg-white">
       <div className="max-w-7xl mx-auto px-6">
@@ -515,40 +539,49 @@ const Testimonials = () => {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {TESTIMONIALS.map((t, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="p-10 rounded-[2.5rem] bg-slate-50 border border-slate-100 flex flex-col transition-shadow duration-200 hover:shadow-lg"
-            >
-              <div className="flex gap-1 mb-6">
-                {[...Array(t.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-primary text-primary" />
-                ))}
-              </div>
-              <p className="text-lg text-slate-700 italic mb-8 flex-grow leading-relaxed">
-                "{t.quote}"
-              </p>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                  {t.name.charAt(0)}
+          {loading
+            ? [...Array(3)].map((_, i) => (
+              <div key={i} className="p-10 rounded-[2.5rem] bg-slate-50 border border-slate-100 animate-pulse h-64" />
+            ))
+            : reviews.slice(0, 3).map((t, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="p-10 rounded-[2.5rem] bg-slate-50 border border-slate-100 flex flex-col transition-shadow duration-200 hover:shadow-lg"
+              >
+                <div className="flex gap-1 mb-6">
+                  {[...Array(t.rating)].map((_, j) => (
+                    <Star key={j} className="w-5 h-5 fill-primary text-primary" />
+                  ))}
                 </div>
-                <div>
-                  <h5 className="font-bold text-slate-900">{t.name}</h5>
-                  <div className="flex items-center gap-1 text-slate-500 text-sm">
-                    <MapPin className="w-3 h-3" aria-hidden="true" /> {t.location}
+                <p className="text-lg text-slate-700 italic mb-8 flex-grow leading-relaxed">
+                  "{t.quote}"
+                </p>
+                <div className="flex items-center gap-4">
+                  {t.profilePhoto
+                    ? <img src={t.profilePhoto} alt={t.name} className="w-12 h-12 rounded-full object-cover" />
+                    : <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">{t.name.charAt(0)}</div>
+                  }
+                  <div>
+                    <h5 className="font-bold text-slate-900">{t.name}</h5>
+                    <div className="flex items-center gap-1 text-slate-500 text-sm">
+                      {t.relativeTime
+                        ? t.relativeTime
+                        : <><MapPin className="w-3 h-3" aria-hidden="true" /> {'location' in t ? (t as any).location : 'Google Review'}</>
+                      }
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))
+          }
         </div>
 
         <div className="text-center mt-12">
           <a href={config.contact.googleReviewsUrl ?? '#'} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-primary font-bold text-lg hover:gap-3 transition-all cursor-pointer">
-            Read All {config.testimonials.reviewCount} Reviews <ChevronRight className="w-5 h-5" aria-hidden="true" />
+            Read All {displayCount} Reviews ({displayRating}★) <ChevronRight className="w-5 h-5" aria-hidden="true" />
           </a>
         </div>
       </div>
@@ -674,52 +707,52 @@ const TrustedPartners = () => {
   );
 };
 
-const Financing = () => {
-  return (
-    <section className="section-padding bg-primary">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="bg-dark rounded-[3rem] p-8 lg:p-20 flex flex-col lg:flex-row items-center gap-12 overflow-hidden relative">
-          <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none"
-            style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '30px 30px' }}
-          />
+// const Financing = () => {
+//   return (
+//     <section className="section-padding bg-primary">
+//       <div className="max-w-7xl mx-auto px-6">
+//         <div className="bg-dark rounded-[3rem] p-8 lg:p-20 flex flex-col lg:flex-row items-center gap-12 overflow-hidden relative">
+//           <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none"
+//             style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '30px 30px' }}
+//           />
 
-          <div className="flex-1 relative z-10">
-            <div className="inline-flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-sm mb-6">
-              <DollarSign className="w-5 h-5" aria-hidden="true" /> Smart Financing
-            </div>
-            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-              {config.financing?.headline}
-            </h2>
-            <p className="text-slate-400 text-lg mb-10 max-w-xl">
-              {config.financing?.subheadline}
-            </p>
-            <div className="flex flex-wrap gap-6">
-              {config.financing?.benefits.map((benefit, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <CheckCircle2 className="text-primary w-6 h-6" aria-hidden="true" />
-                  <span className="text-white font-medium">{benefit}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+//           <div className="flex-1 relative z-10">
+//             <div className="inline-flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-sm mb-6">
+//               <DollarSign className="w-5 h-5" aria-hidden="true" /> Smart Financing
+//             </div>
+//             <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+//               {config.financing?.headline}
+//             </h2>
+//             <p className="text-slate-400 text-lg mb-10 max-w-xl">
+//               {config.financing?.subheadline}
+//             </p>
+//             <div className="flex flex-wrap gap-6">
+//               {config.financing?.benefits.map((benefit, i) => (
+//                 <div key={i} className="flex items-center gap-3">
+//                   <CheckCircle2 className="text-primary w-6 h-6" aria-hidden="true" />
+//                   <span className="text-white font-medium">{benefit}</span>
+//                 </div>
+//               ))}
+//             </div>
+//           </div>
 
-          <div className="lg:w-1/3 relative z-10">
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl text-center">
-              <div className="text-slate-400 text-sm uppercase tracking-widest mb-2">Starting at</div>
-              <div className="text-white text-5xl font-bold mb-6">{config.financing?.startingPrice}<span className="text-lg font-normal text-slate-400">{config.financing?.pricePeriod}</span></div>
-              <a href="#contact" className="btn-primary w-full justify-center py-4">
-                Check Your Rate
-              </a>
-              <p className="text-slate-500 text-xs mt-4">
-                *Subject to credit approval. Terms and conditions apply.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+//           <div className="lg:w-1/3 relative z-10">
+//             <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl text-center">
+//               <div className="text-slate-400 text-sm uppercase tracking-widest mb-2">Starting at</div>
+//               <div className="text-white text-5xl font-bold mb-6">{config.financing?.startingPrice}<span className="text-lg font-normal text-slate-400">{config.financing?.pricePeriod}</span></div>
+//               <a href="#contact" className="btn-primary w-full justify-center py-4">
+//                 Check Your Rate
+//               </a>
+//               <p className="text-slate-500 text-xs mt-4">
+//                 *Subject to credit approval. Terms and conditions apply.
+//               </p>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
 
 const Locations = () => {
   return (
@@ -782,12 +815,12 @@ const Locations = () => {
 };
 
 const Footer = ({
-  onNavigateHome,
+  onNavigateToAbout,
   onNavigateToSection,
   onNavigateToGallery,
   onNavigateToService,
 }: {
-  onNavigateHome: () => void;
+  onNavigateToAbout: () => void;
   onNavigateToSection: (section: string) => void;
   onNavigateToGallery: () => void;
   onNavigateToService: (serviceId: string) => void;
@@ -795,7 +828,7 @@ const Footer = ({
   return (
     <footer className="bg-dark text-white pt-20 pb-10">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 mb-20">
           <div className="lg:col-span-1">
             <div className="mb-8">
               {config.business.logoUrl ? (
@@ -829,7 +862,7 @@ const Footer = ({
           <div>
             <h4 className="font-bold text-lg mb-8">Company</h4>
             <ul className="space-y-4 text-slate-400">
-              <li><button onClick={onNavigateHome} className="hover:text-primary transition-colors duration-200 cursor-pointer">About Us</button></li>
+              <li><button onClick={onNavigateToAbout} className="hover:text-primary transition-colors duration-200 cursor-pointer">About Us</button></li>
               <li><button onClick={() => onNavigateToSection('process')} className="hover:text-primary transition-colors duration-200 cursor-pointer">Our Process</button></li>
               <li><button onClick={onNavigateToGallery} className="hover:text-primary transition-colors duration-200 cursor-pointer">Project Gallery</button></li>
               <li><button onClick={() => onNavigateToSection('testimonials')} className="hover:text-primary transition-colors duration-200 cursor-pointer">Reviews</button></li>
@@ -838,30 +871,7 @@ const Footer = ({
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-bold text-lg mb-8">Get In Touch</h4>
-            <div className="space-y-4 text-slate-400 mb-8">
-              <a href={`tel:${config.contact.phone}`} className="flex items-center gap-3 hover:text-primary transition-colors duration-200">
-                <Phone className="w-5 h-5 text-primary" aria-hidden="true" /> {config.contact.phone}
-              </a>
-              <p className="text-sm">{config.contact.locations[0]?.address}</p>
-            </div>
-            <h5 className="font-bold text-sm mb-4">Newsletter</h5>
-            <p className="text-slate-400 text-sm mb-4">Get outdoor living inspiration delivered to your inbox.</p>
-            <div className="flex gap-2">
-              <label htmlFor="newsletter-email" className="sr-only">Email address</label>
-              <input
-                id="newsletter-email"
-                type="email"
-                placeholder="Email address"
-                autoComplete="email"
-                className="bg-white/5 border border-white/10 rounded-full px-4 py-2 flex-1 focus:outline-none focus:border-primary text-white"
-              />
-              <button className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-dark cursor-pointer transition-colors duration-200 hover:bg-primary-hover" aria-label="Subscribe to newsletter">
-                <ArrowRight className="w-5 h-5" aria-hidden="true" />
-              </button>
-            </div>
-          </div>
+
         </div>
 
         <div className="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-slate-500 text-sm">
@@ -887,6 +897,8 @@ const ContactForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -929,8 +941,43 @@ const ContactForm = () => {
     }
   };
 
-  const handleSubmit = () => {
-    setIsSubmitted(true);
+  const handleSubmit = async () => {
+    const webhookUrl = config.contact.highlevelWebhookUrl;
+    if (!webhookUrl || webhookUrl.startsWith('PASTE_')) {
+      setIsSubmitted(true);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError(false);
+
+    try {
+      await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: formData.fullName.split(' ')[0] ?? formData.fullName,
+          lastName: formData.fullName.split(' ').slice(1).join(' ') || '',
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          services: formData.services.join(', '),
+          projectType: formData.projectType,
+          propertyType: formData.propertyType,
+          description: formData.description,
+          budget: formData.budget,
+          timeline: formData.timeline,
+          financing: formData.financing,
+          hearAbout: formData.hearAbout,
+          source: `${config.business.nameLine1} ${config.business.nameLine2} Website`,
+        }),
+      });
+      setIsSubmitted(true);
+    } catch {
+      setSubmitError(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const progressWidth = `${(currentStep / (FORM_STEPS.length - 1)) * 100}%`;
@@ -1150,11 +1197,11 @@ const ContactForm = () => {
                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors appearance-none cursor-pointer"
                       >
                         <option value="" className="bg-dark">Select a budget range</option>
-                        <option value="25k-50k" className="bg-dark">$25,000 – $50,000</option>
-                        <option value="50k-100k" className="bg-dark">$50,000 – $100,000</option>
-                        <option value="100k-200k" className="bg-dark">$100,000 – $200,000</option>
-                        <option value="200k-500k" className="bg-dark">$200,000 – $500,000</option>
-                        <option value="500k+" className="bg-dark">$500,000+</option>
+                        <option value="0-5k" className="bg-dark">$0 – $5,000</option>
+                        <option value="5k-10k" className="bg-dark">$5,000 – $10,000</option>
+                        <option value="10k-20k" className="bg-dark">$10,000 – $20,000</option>
+                        <option value="20k-50k" className="bg-dark">$20,000 – $50,000</option>
+                        <option value="50k+" className="bg-dark">$50,000+</option>
                         <option value="unsure" className="bg-dark">Not sure yet</option>
                       </select>
                     </div>
@@ -1286,13 +1333,20 @@ const ContactForm = () => {
                 Next <ChevronRight className="w-4 h-4" aria-hidden="true" />
               </motion.button>
             ) : (
-              <motion.button
-                onClick={handleSubmit}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-dark px-6 py-2.5 rounded-xl font-bold transition-colors duration-200 cursor-pointer"
-              >
-                Submit Request <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </motion.button>
+              <div className="flex flex-col items-end gap-2">
+                {submitError && (
+                  <p className="text-red-400 text-xs">Something went wrong — please try again.</p>
+                )}
+                <motion.button
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-dark px-6 py-2.5 rounded-xl font-bold transition-colors duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Sending…' : 'Submit Request'}
+                  {!isSubmitting && <ArrowRight className="w-4 h-4" aria-hidden="true" />}
+                </motion.button>
+              </div>
             )}
           </div>
         </div>
@@ -1333,6 +1387,10 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, []);
 
+  const navigateToAbout = useCallback(() => {
+    navigate({ id: 'about' });
+  }, [navigate]);
+
   return (
     <div className="min-h-screen bg-white">
       <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-full focus:font-semibold">
@@ -1340,6 +1398,7 @@ export default function App() {
       </a>
       <Navbar
         onGalleryClick={() => navigate({ id: 'gallery' })}
+        onAboutClick={navigateToAbout}
         onLogoClick={() => navigate({ id: 'home' })}
         onNavLinkClick={handleNavLinkClick}
       />
@@ -1353,7 +1412,7 @@ export default function App() {
             <HowItWorks />
             <Testimonials />
             <TrustedPartners />
-            <Financing />
+            {/* <Financing /> */}
             <Locations />
             <ContactForm />
           </>
@@ -1380,9 +1439,15 @@ export default function App() {
             onNavigateHome={() => navigate({ id: 'home' })}
           />
         )}
+        {page.id === 'about' && (
+          <AboutUs
+            onNavigateToContact={navigateToContact}
+            onNavigateHome={() => navigate({ id: 'home' })}
+          />
+        )}
       </main>
       <Footer
-        onNavigateHome={() => navigate({ id: 'home' })}
+        onNavigateToAbout={navigateToAbout}
         onNavigateToSection={handleNavLinkClick}
         onNavigateToGallery={() => navigate({ id: 'gallery' })}
         onNavigateToService={navigateToService}

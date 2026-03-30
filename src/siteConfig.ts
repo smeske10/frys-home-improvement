@@ -30,7 +30,7 @@ export interface SiteConfig {
         stats: Array<{ value: string; label: string }>;
     };
     contact: {
-        phone: string; googleReviewsUrl?: string;
+        phone: string; googleReviewsUrl?: string; googlePlaceId?: string; highlevelWebhookUrl?: string;
         locations: Array<{ state: string; city: string; address: string; phone: string }>;
         serviceAreaDescription: string; serviceAreaHeadline: string;
     };
@@ -46,6 +46,17 @@ export interface SiteConfig {
     beforeAfterImages: { before: string; after: string; altBefore: string; altAfter: string };
     serviceOptions: string[];
     galleries?: ProjectGallery[];
+    about?: {
+        pageTitle: string;
+        metaDescription: string;
+        headline: string;
+        intro: string;
+        serviceHighlights: Array<{ title: string; desc: string }>;
+        whyUs: string[];
+        commitment: string;
+        ctaHeading: string;
+        ctaBody: string;
+    };
 }
 
 const config: SiteConfig = {
@@ -67,14 +78,12 @@ const config: SiteConfig = {
         logoUrl: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys.png',
         socialLinks: { facebook: 'https://www.facebook.com/profile.php?id=100088428143218' },
     },
-    theme: { primary: '#2f6838c9', primaryHover: '#2f6838c9', dark: '#020617', darkAccent: '#0f172a' },
+    theme: { primary: '#00b91f9f', primaryHover: '#1f7e2dc9', dark: '#020617', darkAccent: '#0f172a' },
     services: [
-        { id: 'kitchen-remodeling', title: 'Kitchen Remodeling', icon: Sparkles, desc: 'From cabinet replacement and countertop installation to full kitchen gut renovations — we design and build kitchens that combine beauty, function, and lasting quality.', image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/After%20Kitchen.jpg' },
-        { id: 'bathroom-remodeling', title: 'Bathroom Remodeling', icon: Droplets, desc: 'Update your bathroom with a new vanity, tile, shower, or full renovation. We handle every detail from plumbing rough-in to the final coat of paint.', image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/bathroom.jpg' },
-        { id: 'room-additions', title: 'Room Additions', icon: Home, desc: 'Need more space? We design and build seamless room additions that match your existing home\'s style and structure — from sunrooms and master suites to garages.', image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/homeadditions.jpg' },
-        { id: 'deck-building', title: 'Deck Building', icon: Sun, desc: 'Expand your living space outdoors with a custom-built deck. We work with pressure-treated lumber, composite, and hardwood decking to build decks that last.', image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/deck%20building.jpeg' },
-        { id: 'interior-renovations', title: 'Interior Renovations', icon: Layers, desc: 'Flooring, trim, drywall, painting, and more. We handle all aspects of interior renovation to refresh, modernize, or completely transform any room in your home.', image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/interior%20reno.jpeg' },
-        { id: 'custom-carpentry', title: 'Custom Carpentry', icon: Hammer, desc: 'Built-ins, shelving, wainscoting, crown molding, and custom woodwork crafted to fit your space perfectly and elevate the character of your home.', image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/custom%20carpentry.jpg' },
+        { id: 'kitchen-remodeling', title: 'Kitchen Remodeling', icon: Sparkles, desc: 'From cabinet replacement and countertop installation to full kitchen gut renovations. We design and build kitchens that combine beauty, function, and lasting quality.', image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/kitchen%20after.jpg?updatedAt=1774828024549' },
+        { id: 'bathroom-remodeling', title: 'Bathroom Remodeling', icon: Droplets, desc: 'Update your bathroom with a new vanity, tile, shower, or full renovation. We handle every detail from plumbing rough-in to the final coat of paint.', image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/bathroom%20after%202.jpg?updatedAt=1774828024564' },
+        { id: 'siding-exterior', title: 'Siding & Exterior', icon: Home, desc: 'Protect and beautify your home with new siding and exterior updates. We install high-quality vinyl, fiber cement, and wood siding. Plus exterior trim, soffit, fascia, and gutter systems to enhance curb appeal and weather resistance.', image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/siding%20after.jpg?updatedAt=1774828024371' },
+        { id: 'interior-renovations', title: 'Interior Renovations', icon: Layers, desc: 'Flooring, trim, drywall, painting, and more. We handle all aspects of interior renovation to refresh, modernize, or completely transform any room in your home.', image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/attic%20after%201.jpg?updatedAt=1774828024566' },
     ],
     lifestylePillars: [
         { title: '5★ Rated', desc: '9 five-star Google reviews from Pennsylvania homeowners who love their results.', icon: Award },
@@ -92,19 +101,20 @@ const config: SiteConfig = {
         reviewCount: '9',
         averageRating: '5.0',
         reviews: [
-            { quote: 'Fry\'s did a complete kitchen remodel for us and the results are stunning. Excellent craftsmanship, great communication, and finished on time. Couldn\'t be happier!', name: 'Karen M.', location: 'Pennsylvania', rating: 5 },
-            { quote: 'Had them build a deck and do some interior work. Both came out beautifully. Very professional team that clearly takes pride in their work.', name: 'Jim & Sue H.', location: 'Pennsylvania', rating: 5 },
-            { quote: 'Bathroom remodel came out exactly as we envisioned. Fair pricing, clean crew, and the quality of the tile and trim work is exceptional.', name: 'Rachel B.', location: 'Pennsylvania', rating: 5 },
+            { quote: 'Fry’s Home Improvement did an excellent job remodeling a bedroom in our home. From start to finish, Jonathan was professional, responsive, and incredibly helpful throughout the process. The final result exceeded our expectations—it turned out perfect. We’re very happy with the work and would highly recommend them!', name: 'Carl Galantino', location: 'Pennsylvania', rating: 5 },
+            { quote: 'Jonathan was wonderful to work with!! First, he listened to what my vision was for the renovation. We discussed materials, colors and cost. The turnaround with a quote with all the details was done timely and professionally!!', name: 'Debra Stiber', location: 'Pennsylvania', rating: 5 },
+            { quote: 'We recently worked with Fry’s Home Improvement to reinstall our veterinary exam room tables after discovering they had been improperly mounted and were beginning to pull out of the wall. From start to finish, the team at Fry’s was exceptional.', name: 'Mckenzie O', location: 'Pennsylvania', rating: 5 },
         ],
         stats: [
             { value: '5.0★', label: 'Google Rating' },
             { value: '9', label: 'Reviews' },
             { value: '10+', label: 'Years Experience' },
-            { value: 'All PA', label: 'Service Area' },
+            { value: 'PA178656', label: 'Licensed & Insured' },
         ],
     },
     contact: {
         phone: '570-419-7032',
+        highlevelWebhookUrl: 'https://services.leadconnectorhq.com/hooks/2elBgdn2sRdrfHAEc3P5/webhook-trigger/b6765e59-7ebb-429e-b088-418e3ec9610c',
         googleReviewsUrl: 'https://www.google.com/search?q=frys+home+improvement&rlz=1C1ONGR_enUS979US980&oq=frys+home+improvement&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQABgNGIAEMggIAhAAGBYYHjIHCAMQABjvBTIHCAQQABjvBTIGCAUQRRg8MgYIBhBFGDwyBggHEEUYPNIBCDQwMTVqMGoxqAIAsAIA&sourceid=chrome&ie=UTF-8#lrd=0xaa80f8a17084cd8d:0x4273dee71d78ebd3,1,,,,',
         locations: [{ state: 'Pennsylvania', city: 'Pennsylvania', address: 'Pennsylvania', phone: '570-419-7032' }],
         serviceAreaDescription: 'Serving homeowners across Pennsylvania. Contact us to confirm service to your area.',
@@ -116,16 +126,16 @@ const config: SiteConfig = {
         { icon: ShieldCheck, label: 'Licensed & Insured' },
         { icon: Clock, label: '10+ Years Experience' },
     ],
-    financing: {
-        startingPrice: '$499',
-        pricePeriod: '/mo',
-        benefits: [
-            'Flexible Payment Plans',
-            'No Hidden Fees',
-        ],
-        headline: 'Your home improvement project is more affordable than you think.',
-        subheadline: 'We offer flexible financing and payment plans for residential projects. Get started with a free estimate — no obligation.',
-    },
+    // financing: {
+    //     startingPrice: '$499',
+    //     pricePeriod: '/mo',
+    //     benefits: [
+    //         'Flexible Payment Plans',
+    //         'No Hidden Fees',
+    //     ],
+    //     headline: 'Your home improvement project is more affordable than you think.',
+    //     subheadline: 'We offer flexible financing and payment plans for residential projects. Get started with a free estimate — no obligation.',
+    // },
     sectionHeaders: {
         lifestyleLabel: 'Why Choose Fry\'s', lifestyleTitle: 'Craftsmanship that transforms homes',
         servicesLabel: 'Our Services', servicesTitle: 'Complete home improvement, inside and out',
@@ -136,24 +146,79 @@ const config: SiteConfig = {
         partnersLabel: 'Brands We Trust',
     },
     beforeAfterImages: {
-        before: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/After%20Kitchen.jpg',
-        after: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Before%20Kitchen.jpg',
+        before: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/kitchen%20after.jpg',
+        after: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/kitchen%20before.jpg',
         altBefore: 'Kitchen before renovation — dated cabinets and worn countertops',
         altAfter: 'Kitchen after Fry\'s remodel — modern, bright, and stunning',
     },
-    serviceOptions: ['Kitchen Remodeling', 'Bathroom Remodeling', 'Room Addition', 'Deck Building', 'Interior Renovations', 'Custom Carpentry', 'Other'],
+    serviceOptions: ['Kitchen Remodeling', 'Bathroom Remodeling', 'Room Addition', 'Interior Renovations', 'Siding & Exterior', 'Other'],
+    about: {
+        pageTitle: "About Fry's Home Improvement | Williamsport, PA Home Remodeling Contractor",
+        metaDescription: "Fry's Home Improvement offers kitchen remodeling, bathroom renovations, and exterior home improvement services in Williamsport, PA. Contact us for a free estimate.",
+        headline: "About Fry's Home Improvement",
+        intro: "At Fry's Home Improvement, we believe your home is one of the most important investments you'll ever make. It's more than just a place to live—it's where your family gathers, where your lifestyle takes shape, and where long-term value is built.\n\nAs a trusted home improvement contractor in Williamsport, PA and the greater Lycoming County area, we are committed to delivering high-quality craftsmanship, reliable service, and results that enhance both the beauty and functionality of your home.\n\nWith deep local roots, we understand the needs of homeowners in our community. Every project we take on—whether it's a full renovation or a small upgrade—is approached with attention to detail, clear communication, and a focus on long-lasting results.",
+        serviceHighlights: [
+            { title: 'Kitchen Remodeling', desc: "We design and build custom kitchen renovations that combine style, efficiency, and durability. Whether you're updating finishes or completing a full remodel, we create kitchens that are both functional and visually stunning." },
+            { title: 'Bathroom Remodeling', desc: "Our bathroom remodeling services transform outdated spaces into clean, modern, and comfortable environments. From walk-in showers to full bathroom renovations, we focus on quality materials and thoughtful design." },
+            { title: 'Exterior & Outdoor Renovations', desc: "Boost your home's curb appeal and protection with our exterior home improvement services, including siding, windows, doors, and outdoor living upgrades. We help homeowners improve energy efficiency while creating spaces they're proud of." },
+            { title: 'General Home Improvements & Small Projects', desc: "Not every project needs to be large to make an impact. We handle small home improvement projects, repairs, and upgrades that improve your home's comfort, convenience, and value." },
+        ],
+        whyUs: [
+            'Local, family-rooted business in Lycoming County, PA',
+            'Experienced in kitchen, bathroom, and exterior remodeling',
+            'Focused on quality craftsmanship and long-term durability',
+            'Personalized service with clear communication',
+            'Projects completed with care, precision, and attention to detail',
+        ],
+        commitment: "At Fry's Home Improvement, our work reflects our values. We take pride in helping homeowners across Williamsport and surrounding areas bring their vision to life—whether it's a modern kitchen, a fully renovated bathroom, or a simple upgrade that makes everyday life better.",
+        ctaHeading: 'Start Your Home Improvement Project Today',
+        ctaBody: "From full renovations to small upgrades, Fry's Home Improvement is here to help. Contact us today to schedule a consultation and bring your vision to life.",
+    },
     galleries: [
         {
-            id: 'kitchen-remodel',
-            title: 'Kitchen Remodel',
-            category: 'Kitchen Remodel',
-            location: 'Danville, PA',
-            coverImage: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/kitchen-remodel.jpg',
-            description: 'Our most recent full kitchen remodel showcases the beauty of natural stained wood cabinets accented with thoughtful contrasts, colors and designs that completely transformed this kitchen and dining space!',
+            id: 'bathroom-remodel',
+            title: 'Bathroom Remodel with Walk-In Shower & Modern Vanity Installation',
+            category: 'Bathroom Remodel',
+            location: 'Muncy, PA',
+            coverImage: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/bathroom%20after%201.jpg?updatedAt=1774828024540',
+            description: 'We transformed this outdated bathroom into a sleek, modern space with a full interior bathroom renovation. The original bathroom featured older finishes, limited space, and poor lighting. Our team installed a custom tile shower, frameless glass doors, upgraded vanity, and new flooring to create a clean, contemporary design. The result is a bright, low-maintenance bathroom built for both comfort and long-term durability. Whether you need a shower replacement, vanity upgrade, or full bathroom remodel, this project demonstrates the impact of quality materials and expert craftsmanship.',
             images: [
-                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/kitchen-1.jpg', alt: 'Kitchen with natural stained wood cabinets and white countertops', caption: 'Totally remodeled kitchen with natural stained wood cabinets and white countertops' },
-                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/kitchen-2.jpg', alt: 'Stunning integrated range and fume hood', caption: 'Stunning integrated range and fume hood' },
-                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/kitchen-3.jpg', alt: 'Beautiful backsplash', caption: 'Hand crafted backsplash' },
+                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/bathroom%20before%201.jpg?updatedAt=1774828024377', alt: 'Outdated bathroom with old shower, sink, and poor lighting before renovation', caption: 'Original bathroom with outdated fixtures and limited space' },
+                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/bathroom%20after%202.jpg?updatedAt=1774828024564', alt: 'Modern walk-in shower with glass doors and white tile surround after bathroom remodel', caption: 'New walk-in shower with glass doors and clean tile finish' },
+                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/bathroom%20after%201.jpg?updatedAt=1774828024540', alt: 'Updated bathroom with new vanity, modern lighting, and tile flooring after renovation', caption: 'Modern vanity and lighting upgrade with bright, open layout' },
+            ],
+            completedYear: 2025,
+            projectSize: '200 sq ft',
+        },
+        {
+            id: 'tile-cabinets-appliances',
+            title: 'Kitchen Remodel & Interior Renovation Transformation',
+            category: 'Kitchen Remodel',
+            location: 'Muncy, PA',
+            coverImage: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/kitchen%20after.jpg',
+            description: 'We transformed this outdated kitchen into a modern, functional space with a full interior remodel. The original design featured limited lighting, older cabinetry, and worn flooring. Our team installed custom cabinetry, durable tile flooring, upgraded countertops, and energy-efficient lighting to completely refresh the space. The result is a bright, open kitchen designed for both everyday use and entertaining. Whether you are planning a kitchen upgrade, flooring replacement, or full interior renovation, this project highlights the impact of quality craftsmanship and thoughtful design.',
+            images: [
+                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/kitchen%20after.jpg', alt: 'Modern kitchen remodel with navy cabinets, quartz countertops, and tile flooring', caption: 'Bright, modern kitchen with custom cabinetry and upgraded finishes' },
+                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/kitchen%20before%203.jpg', alt: 'Outdated interior hallway with dark wood paneling before home renovation', caption: 'Dark, outdated interior with wood paneling and limited lighting. Closed-off layout before renovation.' },
+                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/kitchen%20after%203.jpg', alt: 'Open concept kitchen and living area after interior renovation with modern finishes', caption: 'Open concept living area with new flooring and recessed lighting' },
+                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/kitchen%20before%202.jpg', alt: 'Old kitchen with outdated wallpaper and flooring before remodel', caption: 'Original kitchen with worn flooring and dated finishes' },
+                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/kitchen%20after%202.jpg', alt: 'Adding overhead lighting and new paint freshened the space', caption: 'Clean layout with new flooring, appliances, and improved functionality' },
+            ],
+            completedYear: 2025,
+            projectSize: '500 sq ft',
+        },
+        {
+            id: 'siding',
+            title: 'Exterior Siding Replacement & Front Porch Renovation',
+            category: 'Siding & Exterior',
+            location: 'Hughesville, PA',
+            coverImage: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/siding%20after.jpg',
+            description: 'This project showcases a full exterior siding replacement and front porch renovation designed to dramatically improve curb appeal, durability, and long-term value.\n\nThe home originally featured outdated siding and a minimal entryway that lacked structure and visual appeal. Our team installed new high-quality siding, updated trim, and rebuilt the front porch with a covered entry, creating a more functional and inviting entrance.',
+            images: [
+                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/siding%20before.jpg', alt: 'Before exterior siding replacement showing outdated siding and unfinished front porch structure', caption: 'Outdated siding and an unfinished entryway before the exterior renovation' },
+                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/siding%20after.jpg?updatedAt=1774828024371', alt: 'After exterior renovation with new siding installation and covered front porch improving curb appeal', caption: 'Modern siding and a newly built covered porch dramatically improve curb appeal' },
+                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/siding%20before%202.jpg?updatedAt=1774829377985', alt: 'Beautiful backsplash', caption: 'Hand crafted backsplash' },
+                { url: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/siding%20after%202.jpg?updatedAt=1774829377985', alt: 'Beautiful backsplash', caption: 'Hand crafted backsplash' },
             ],
             completedYear: 2025,
             projectSize: '500 sq ft',
