@@ -21,7 +21,16 @@ export interface SiteConfig {
         socialLinks: { instagram?: string; facebook?: string; houzz?: string; youtube?: string };
     };
     theme: { primary: string; primaryHover: string; dark: string; darkAccent: string };
-    services: Array<{ id: string; title: string; icon: LucideIcon; desc: string; image: string }>;
+    services: Array<{
+        id: string;
+        title: string;
+        icon: LucideIcon;
+        desc: string;
+        image: string;
+        seoHeading?: string;
+        longDescription?: string;
+        features?: string[];
+    }>;
     lifestylePillars: Array<{ title: string; desc: string; icon: LucideIcon }>;
     processSteps: Array<{ title: string; desc: string; icon: LucideIcon }>;
     testimonials: {
@@ -84,10 +93,74 @@ const config: SiteConfig = {
     },
     theme: { primary: '#00b91f9f', primaryHover: '#1f7e2dc9', dark: '#020617', darkAccent: '#0f172a' },
     services: [
-        { id: 'kitchen-remodeling', title: 'Kitchen Remodeling', icon: Sparkles, desc: 'From cabinet replacement and countertop installation to full kitchen gut renovations. We design and build kitchens that combine beauty, function, and lasting quality.', image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/kitchen%20after.jpg?updatedAt=1774828024549' },
-        { id: 'bathroom-remodeling', title: 'Bathroom Remodeling', icon: Droplets, desc: 'Update your bathroom with a new vanity, tile, shower, or full renovation. We handle every detail from plumbing rough-in to the final coat of paint.', image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/bathroom%20after%202.jpg?updatedAt=1774828024564' },
-        { id: 'siding-exterior', title: 'Siding & Exterior', icon: Home, desc: 'Protect and beautify your home with new siding and exterior updates. We install high-quality vinyl, fiber cement, and wood siding. Plus exterior trim, soffit, fascia, and gutter systems to enhance curb appeal and weather resistance.', image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/siding%20after.jpg?updatedAt=1774828024371' },
-        { id: 'interior-renovations', title: 'Interior Renovations', icon: Layers, desc: 'Flooring, trim, drywall, painting, and more. We handle all aspects of interior renovation to refresh, modernize, or completely transform any room in your home.', image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/attic%20after%201.jpg?updatedAt=1774828024566' },
+        {
+            id: 'kitchen-remodeling',
+            title: 'Kitchen Remodeling',
+            icon: Sparkles,
+            desc: 'From cabinet replacement and countertop installation to full kitchen gut renovations. We design and build kitchens that combine beauty, function, and lasting quality.',
+            image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/kitchen%20after.jpg?updatedAt=1774828024549',
+            seoHeading: 'Professional Kitchen Remodeling in Williamsport, PA',
+            longDescription: 'From outdated layouts to fully reimagined spaces, our kitchen remodeling services transform one of the most-used rooms in your home. We handle every aspect of the project — from removing old cabinets and flooring to installing new countertops, backsplash, lighting, and appliances — delivering a finished kitchen that reflects your style and fits your budget.\n\nWe work closely with homeowners across Lycoming County and Central Pennsylvania to design kitchens that are both beautiful and highly functional. Whether you want to open up a closed-off floor plan, upgrade to custom cabinetry, or install new tile and hardwood flooring, our team brings the skills and attention to detail needed to do it right.',
+            features: [
+                'Custom cabinetry and cabinet replacement',
+                'Countertop installation (quartz, granite, laminate)',
+                'Tile backsplash and new flooring',
+                'Lighting upgrades and under-cabinet lighting',
+                'Full gut renovations and layout changes',
+                'Appliance hookup and finish work',
+            ],
+        },
+        {
+            id: 'bathroom-remodeling',
+            title: 'Bathroom Remodeling',
+            icon: Droplets,
+            desc: 'Update your bathroom with a new vanity, tile, shower, or full renovation. We handle every detail from plumbing rough-in to the final coat of paint.',
+            image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/bathroom%20after%202.jpg?updatedAt=1774828024564',
+            seoHeading: 'Bathroom Remodeling Services in Williamsport, PA',
+            longDescription: 'A well-designed bathroom adds comfort, value, and daily enjoyment to your home. Our bathroom remodeling services cover everything from simple vanity upgrades to complete gut renovations — including custom tile showers, soaking tubs, new flooring, vanities, mirrors, and lighting.\n\nWe serve homeowners across Williamsport and Lycoming County with professional bathroom renovation services that prioritize quality materials, clean finishes, and lasting durability. Every project is approached with a focus on functionality, style, and your specific vision for the space.',
+            features: [
+                'Walk-in shower design and installation',
+                'Tub-to-shower conversions',
+                'Tile work (floor, walls, shower surround)',
+                'Vanity, sink, and faucet installation',
+                'Lighting and ventilation upgrades',
+                'Full bathroom gut renovations',
+            ],
+        },
+        {
+            id: 'siding-exterior',
+            title: 'Siding & Exterior',
+            icon: Home,
+            desc: 'Protect and beautify your home with new siding and exterior updates. We install high-quality vinyl, fiber cement, and wood siding. Plus exterior trim, soffit, fascia, and gutter systems to enhance curb appeal and weather resistance.',
+            image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/siding%20after.jpg?updatedAt=1774828024371',
+            seoHeading: 'Siding Replacement & Exterior Renovation in Central PA',
+            longDescription: 'Your home\'s exterior is the first thing people see — and your first line of defense against the elements. We provide professional siding replacement and exterior renovation services that improve curb appeal, increase energy efficiency, and protect your home for years to come.\n\nOur team installs high-quality vinyl, fiber cement, and wood siding for homeowners across Pennsylvania. We also handle trim, soffit, fascia, gutters, and front entry improvements, delivering a complete exterior upgrade that increases your home\'s value and street presence.',
+            features: [
+                'Vinyl, fiber cement, and wood siding installation',
+                'Soffit, fascia, and exterior trim work',
+                'Gutter installation and replacement',
+                'Front porch and entry renovations',
+                'Window and door trim upgrades',
+                'Full exterior transformations',
+            ],
+        },
+        {
+            id: 'interior-renovations',
+            title: 'Interior Renovations',
+            icon: Layers,
+            desc: 'Flooring, trim, drywall, painting, and more. We handle all aspects of interior renovation to refresh, modernize, or completely transform any room in your home.',
+            image: 'https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/attic%20after%201.jpg?updatedAt=1774828024566',
+            seoHeading: 'Interior Home Renovation Services in Lycoming County, PA',
+            longDescription: 'From flooring and drywall to paint and trim, our interior renovation services refresh and modernize any room in your home. Whether you\'re updating a single space or remodeling multiple rooms, we bring the craftsmanship needed to deliver clean, professional results.\n\nWe work with homeowners throughout Williamsport and surrounding communities on interior improvement projects of all sizes — from installing new hardwood floors and updating trim details to drywalling a basement or refreshing a dated living area with new paint and lighting.',
+            features: [
+                'Hardwood, luxury vinyl, and tile flooring',
+                'Drywall installation and finishing',
+                'Interior painting and trim work',
+                'Basement finishing and renovation',
+                'Attic conversions and space improvements',
+                'Room updates, refreshes, and repairs',
+            ],
+        },
     ],
     lifestylePillars: [
         { title: '5★ Rated', desc: '9 five-star Google reviews from Pennsylvania homeowners who love their results.', icon: Award },

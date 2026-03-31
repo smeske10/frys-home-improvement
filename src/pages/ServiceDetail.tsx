@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, ChevronRight, Phone } from 'lucide-react';
-import { SERVICES, LIFESTYLE_PILLARS, PROCESS_STEPS } from '../constants';
+import { ArrowRight, ChevronRight, Phone, CheckCircle2 } from 'lucide-react';
+import { SERVICES } from '../constants';
 import config from '../siteConfig';
 
 interface ServiceDetailProps {
@@ -80,80 +80,64 @@ const ServiceDetail = ({ serviceId, onNavigateToContact, onNavigateToService, on
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="section-padding bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-primary font-bold tracking-widest text-sm uppercase mb-4">
-              {config.sectionHeaders.lifestyleLabel}
-            </h2>
-            <h3 className="text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
-              {config.sectionHeaders.lifestyleTitle}
-            </h3>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {LIFESTYLE_PILLARS.map((pillar, i) => (
+      {/* SEO Content */}
+      {(service.seoHeading || service.longDescription || service.features) && (
+        <section className="section-padding bg-white">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="grid lg:grid-cols-2 gap-16 items-start">
+              {/* Text */}
               <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="text-center p-8 rounded-3xl bg-white border border-slate-100 shadow-sm"
+                transition={{ duration: 0.5 }}
               >
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mx-auto mb-5">
-                  <pillar.icon className="w-7 h-7" aria-hidden="true" />
-                </div>
-                <h4 className="text-lg font-bold text-slate-900 mb-2">{pillar.title}</h4>
-                <p className="text-slate-600 text-sm leading-relaxed">{pillar.desc}</p>
+                {service.seoHeading && (
+                  <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight mb-6">
+                    {service.seoHeading}
+                  </h2>
+                )}
+                {service.longDescription && (
+                  <div className="space-y-4">
+                    {service.longDescription.split('\n\n').map((para, i) => (
+                      <p key={i} className="text-slate-600 leading-relaxed text-lg">
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                )}
+                <button
+                  onClick={onNavigateToContact}
+                  className="btn-primary mt-8 py-4 px-8 text-lg cursor-pointer"
+                >
+                  Get a Free Quote <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                </button>
               </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Process */}
-      <section className="section-padding bg-dark text-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-primary font-bold tracking-widest text-sm uppercase mb-4">
-              {config.sectionHeaders.processLabel}
-            </h2>
-            <h3 className="text-4xl lg:text-5xl font-bold tracking-tight">
-              {config.sectionHeaders.processTitle}
-            </h3>
+              {/* Features */}
+              {service.features && service.features.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="bg-slate-50 rounded-3xl p-8 border border-slate-100"
+                >
+                  <h3 className="text-xl font-bold text-slate-900 mb-6">What We Do</h3>
+                  <ul className="space-y-4">
+                    {service.features.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" aria-hidden="true" />
+                        <span className="text-slate-700 font-medium">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              )}
+            </div>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {PROCESS_STEPS.map((step, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="text-center"
-              >
-                <div className="relative w-20 h-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-6">
-                  <step.icon className="w-10 h-10 text-primary" aria-hidden="true" />
-                  <span className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-primary text-dark flex items-center justify-center font-bold text-sm">
-                    0{i + 1}
-                  </span>
-                </div>
-                <h4 className="text-xl font-bold mb-3">{step.title}</h4>
-                <p className="text-slate-400 leading-relaxed text-sm">{step.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-          <div className="text-center mt-16">
-            <button
-              onClick={onNavigateToContact}
-              className="btn-primary py-4 px-8 text-lg cursor-pointer"
-            >
-              Schedule Your Free Estimate <ArrowRight className="w-5 h-5" aria-hidden="true" />
-            </button>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Other Services */}
       {otherServices.length > 0 && (
