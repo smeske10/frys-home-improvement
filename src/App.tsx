@@ -260,7 +260,7 @@ const ImageComparisonSlider = ({
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-dark">
+    <section className="relative min-h-[90vh] lg:min-h-0 flex items-center pt-20 pb-12 lg:py-28 overflow-hidden bg-dark">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
