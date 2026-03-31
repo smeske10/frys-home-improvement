@@ -61,7 +61,7 @@ const ServiceDetail = ({ serviceId, onNavigateToContact, onNavigateToService, on
               <p className="text-xl text-slate-300 max-w-2xl leading-relaxed mb-8">
                 {service.desc}
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 justify-center">
                 <button
                   onClick={onNavigateToContact}
                   className="btn-primary py-4 px-8 text-lg cursor-pointer"
@@ -106,12 +106,14 @@ const ServiceDetail = ({ serviceId, onNavigateToContact, onNavigateToService, on
                     ))}
                   </div>
                 )}
-                <button
-                  onClick={onNavigateToContact}
-                  className="btn-primary mt-8 py-4 px-8 text-lg cursor-pointer"
-                >
-                  Get a Free Quote <ArrowRight className="w-5 h-5" aria-hidden="true" />
-                </button>
+                <div className="flex justify-center mt-8">
+                  <button
+                    onClick={onNavigateToContact}
+                    className="btn-primary py-4 px-8 text-lg cursor-pointer"
+                  >
+                    Get a Free Quote <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                  </button>
+                </div>
               </motion.div>
 
               {/* Features */}
