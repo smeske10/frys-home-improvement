@@ -82,7 +82,7 @@ const ServiceDetail = ({ serviceId, onNavigateToContact, onNavigateToService, on
 
       {/* SEO Content */}
       {(service.seoHeading || service.longDescription || service.features) && (
-        <section className="section-padding bg-white">
+        <section className="pt-16 lg:pt-24 pb-10 lg:pb-12 bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid lg:grid-cols-2 gap-16 items-start">
               {/* Text */}
@@ -141,7 +141,7 @@ const ServiceDetail = ({ serviceId, onNavigateToContact, onNavigateToService, on
 
       {/* Other Services */}
       {otherServices.length > 0 && (
-        <section className="section-padding bg-white">
+        <section className="pt-10 lg:pt-12 pb-20 lg:pb-32 bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
               <h2 className="text-primary font-bold tracking-widest text-sm uppercase mb-4">More Services</h2>
