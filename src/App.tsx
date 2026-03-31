@@ -282,6 +282,7 @@ const Hero = () => {
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
+          className="text-center"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-wider mb-6">
             <span className="relative flex h-2 w-2">
@@ -293,10 +294,10 @@ const Hero = () => {
           <h1 className="text-5xl lg:text-7xl font-bold text-white leading-[1.1] mb-6 tracking-tight">
             {config.business.tagline}<span className="text-primary">{config.business.taglineAccent}</span>
           </h1>
-          <p className="text-xl text-slate-300 mb-10 leading-relaxed max-w-xl">
+          <p className="text-xl text-slate-300 mb-10 leading-relaxed max-w-xl mx-auto">
             {config.business.heroSubheadline}
           </p>
-          <div className="flex flex-wrap gap-4 mb-12">
+          <div className="flex flex-wrap gap-4 mb-12 justify-center">
             <a href="#contact" className="btn-primary py-4 px-8 text-lg">
               Schedule Your Free Estimate <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </a>
@@ -305,7 +306,7 @@ const Hero = () => {
             </a>
           </div>
 
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-8 justify-center">
             {TRUST_BADGES.map((badge, i) => (
               <div key={i} className="flex items-center gap-2 text-slate-400">
                 <badge.icon className="w-5 h-5 text-primary" aria-hidden="true" />
@@ -474,45 +475,44 @@ const Services = ({ onNavigateToService }: { onNavigateToService: (serviceId: st
 
 const HowItWorks = () => {
   return (
-    <section id="process" className="section-padding bg-dark text-white overflow-hidden relative">
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-20">
-          <div className="max-w-2xl">
-            <h2 className="text-primary font-bold tracking-widest text-sm uppercase mb-4">{config.sectionHeaders.processLabel}</h2>
-            <h3 className="text-4xl lg:text-5xl font-bold tracking-tight">
-              {config.sectionHeaders.processTitle}
-            </h3>
-          </div>
-          <a href="#contact" className="btn-primary">
-            Schedule Your Free Estimate
-          </a>
+    <section className="section-padding bg-dark text-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-primary font-bold tracking-widest text-sm uppercase mb-4">
+            {config.sectionHeaders.processLabel}
+          </h2>
+          <h3 className="text-4xl lg:text-5xl font-bold tracking-tight">
+            {config.sectionHeaders.processTitle}
+          </h3>
         </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {PROCESS_STEPS.map((step, i) => (
-            <div key={i} className="relative">
-              {i < PROCESS_STEPS.length - 1 && (
-                <div className="hidden lg:block absolute top-[4px] left-20 -right-12 h-[1px] bg-primary/20 z-0" />
-              )}
-              <div className="relative z-10">
-                <div className="w-20 h-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group transition-colors duration-200 hover:border-primary/50">
-                  <step.icon className="w-10 h-10 text-primary transition-transform duration-200 group-hover:scale-110" aria-hidden="true" />
-                  <span className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-primary text-dark flex items-center justify-center font-bold text-sm" aria-label={`Step ${i + 1}`}>
-                    0{i + 1}
-                  </span>
-                </div>
-                <h4 className="text-xl font-bold mb-4">{step.title}</h4>
-                <p className="text-slate-400 leading-relaxed">
-                  {step.desc}
-                </p>
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="text-center"
+            >
+              <div className="relative w-20 h-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-6">
+                <step.icon className="w-10 h-10 text-primary" aria-hidden="true" />
+                <span className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-primary text-dark flex items-center justify-center font-bold text-sm">
+                  0{i + 1}
+                </span>
               </div>
-            </div>
+              <h4 className="text-xl font-bold mb-3">{step.title}</h4>
+              <p className="text-slate-400 leading-relaxed text-sm">{step.desc}</p>
+            </motion.div>
           ))}
         </div>
+        <div className="text-center mt-16">
+          <a href="#contact" className="btn-primary py-4 px-8 text-lg">
+            Schedule Your Free Estimate <ArrowRight className="w-5 h-5" aria-hidden="true" />
+          </a>
+        </div>
       </div>
-    </section>
+    </section >
   );
 };
 
