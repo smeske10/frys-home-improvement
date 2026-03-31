@@ -23,6 +23,7 @@ import {
   LIFESTYLE_PILLARS
 } from './constants';
 import config from './siteConfig';
+import ConsentBanner from './components/ConsentBanner';
 import GalleryCatalog from './pages/GalleryCatalog';
 import GalleryDetail from './pages/GalleryDetail';
 import ServiceDetail from './pages/ServiceDetail';
@@ -942,17 +943,11 @@ const ContactForm = () => {
   };
 
   const handleSubmit = async () => {
-    const webhookUrl = config.contact.highlevelWebhookUrl;
-    if (!webhookUrl || webhookUrl.startsWith('PASTE_')) {
-      setIsSubmitted(true);
-      return;
-    }
-
     setIsSubmitting(true);
     setSubmitError(false);
 
     try {
-      await fetch(webhookUrl, {
+      const res = await fetch('/.netlify/functions/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -972,6 +967,7 @@ const ContactForm = () => {
           source: `${config.business.nameLine1} ${config.business.nameLine2} Website`,
         }),
       });
+      if (!res.ok) throw new Error('Submission failed');
       setIsSubmitted(true);
     } catch {
       setSubmitError(true);
@@ -1362,6 +1358,29 @@ const ContactForm = () => {
 export default function App() {
   const [page, setPage] = useState<PageState>({ id: 'home' });
 
+  // Inject GTM and HighLevel tracking scripts once on mount
+  useEffect(() => {
+    const { gtmId, ghlTrackingScriptUrl } = config.tracking ?? {};
+
+    if (gtmId && gtmId !== 'GTM-XXXXXXX') {
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtm.js?id=${gtmId}`;
+      document.head.appendChild(script);
+
+      // Update GTM noscript iframe ID
+      const ns = document.querySelector('noscript iframe') as HTMLIFrameElement | null;
+      if (ns) ns.src = `https://www.googletagmanager.com/ns.html?id=${gtmId}`;
+    }
+
+    if (ghlTrackingScriptUrl) {
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = ghlTrackingScriptUrl;
+      document.head.appendChild(script);
+    }
+  }, []);
+
   const navigate = useCallback((next: PageState) => {
     setPage(next);
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
@@ -1452,6 +1471,7 @@ export default function App() {
         onNavigateToGallery={() => navigate({ id: 'gallery' })}
         onNavigateToService={navigateToService}
       />
+      <ConsentBanner />
     </div>
   );
 }

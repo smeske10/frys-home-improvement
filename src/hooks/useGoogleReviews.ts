@@ -29,7 +29,7 @@ export function useGoogleReviews(placeId?: string): GoogleReviewsResult {
     setLoading(true);
     setError(false);
 
-    fetch(`/api/reviews?placeId=${encodeURIComponent(placeId)}`)
+    fetch(`/.netlify/functions/reviews?placeId=${encodeURIComponent(placeId)}`)
       .then(r => {
         if (!r.ok) throw new Error('Failed to fetch reviews');
         return r.json();

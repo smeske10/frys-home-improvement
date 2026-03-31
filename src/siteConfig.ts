@@ -57,6 +57,10 @@ export interface SiteConfig {
         ctaHeading: string;
         ctaBody: string;
     };
+    tracking?: {
+        gtmId?: string;
+        ghlTrackingScriptUrl?: string;
+    };
 }
 
 const config: SiteConfig = {
@@ -173,6 +177,10 @@ const config: SiteConfig = {
         commitment: "At Fry's Home Improvement, our work reflects our values. We take pride in helping homeowners across Williamsport and surrounding areas bring their vision to life—whether it's a modern kitchen, a fully renovated bathroom, or a simple upgrade that makes everyday life better.",
         ctaHeading: 'Start Your Home Improvement Project Today',
         ctaBody: "From full renovations to small upgrades, Fry's Home Improvement is here to help. Contact us today to schedule a consultation and bring your vision to life.",
+    },
+    tracking: {
+        gtmId: 'GTM-XXXXXXX', // Replace with your GTM container ID
+        ghlTrackingScriptUrl: '', // Add your HighLevel external tracking script URL here
     },
     galleries: [
         {
