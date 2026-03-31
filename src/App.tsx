@@ -260,7 +260,7 @@ const ImageComparisonSlider = ({
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[90vh] lg:min-h-0 flex items-center pt-20 pb-12 lg:py-28 overflow-hidden bg-dark">
+    <section className="relative min-h-[90vh] lg:min-h-0 flex items-center pt-28 pb-16 lg:py-28 overflow-hidden bg-dark">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
@@ -291,7 +291,7 @@ const Hero = () => {
             </span>
             {config.business.heroBadgeText}
           </div>
-          <h1 className="text-5xl lg:text-7xl font-bold text-white leading-[1.1] mb-6 tracking-tight">
+          <h1 className="text-4xl lg:text-7xl font-bold text-white leading-[1.1] mb-6 tracking-tight">
             {config.business.tagline}<span className="text-primary">{config.business.taglineAccent}</span>
           </h1>
           <p className="text-xl text-slate-300 mb-10 leading-relaxed max-w-xl mx-auto">
@@ -387,7 +387,7 @@ const LifestylePillars = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-primary font-bold tracking-widest text-sm uppercase mb-4">{config.sectionHeaders.lifestyleLabel}</h2>
-          <h3 className="text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
+          <h3 className="text-3xl lg:text-5xl font-bold text-slate-900 tracking-tight">
             {config.sectionHeaders.lifestyleTitle}
           </h3>
         </div>
@@ -420,7 +420,7 @@ const Services = ({ onNavigateToService }: { onNavigateToService: (serviceId: st
       <div className="max-w-7xl mx-auto px-2">
         <div className="text-center mb-20">
           <h2 className="text-primary font-bold tracking-widest text-sm uppercase mb-4">{config.sectionHeaders.servicesLabel}</h2>
-          <h3 className="text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
+          <h3 className="text-3xl lg:text-5xl font-bold text-slate-900 tracking-tight">
             {config.sectionHeaders.servicesTitle}
           </h3>
           <p className="text-slate-600 text-lg mt-6 max-w-2xl mx-auto">
@@ -481,7 +481,7 @@ const HowItWorks = () => {
           <h2 className="text-primary font-bold tracking-widest text-sm uppercase mb-4">
             {config.sectionHeaders.processLabel}
           </h2>
-          <h3 className="text-4xl lg:text-5xl font-bold tracking-tight">
+          <h3 className="text-3xl lg:text-5xl font-bold tracking-tight">
             {config.sectionHeaders.processTitle}
           </h3>
         </div>
@@ -531,7 +531,7 @@ const Testimonials = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-20">
           <h2 className="text-primary font-bold tracking-widest text-sm uppercase mb-4">{config.sectionHeaders.testimonialsLabel}</h2>
-          <h3 className="text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
+          <h3 className="text-3xl lg:text-5xl font-bold text-slate-900 tracking-tight">
             {config.sectionHeaders.testimonialsTitle}
           </h3>
           <p className="text-slate-500 text-lg mt-4">
@@ -721,7 +721,7 @@ const TrustedPartners = () => {
 //             <div className="inline-flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-sm mb-6">
 //               <DollarSign className="w-5 h-5" aria-hidden="true" /> Smart Financing
 //             </div>
-//             <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+//             <h2 className="text-3xl lg:text-5xl font-bold text-white mb-6 leading-tight">
 //               {config.financing?.headline}
 //             </h2>
 //             <p className="text-slate-400 text-lg mb-10 max-w-xl">
@@ -762,7 +762,7 @@ const Locations = () => {
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           <div>
             <h2 className="text-primary font-bold tracking-widest text-sm uppercase mb-4">Service Areas</h2>
-            <h3 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-8 tracking-tight">
+            <h3 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-8 tracking-tight">
               {config.contact.serviceAreaHeadline}
             </h3>
             <p className="text-slate-600 text-lg mb-12 leading-relaxed">
@@ -1011,7 +1011,7 @@ const ContactForm = () => {
       <div className="max-w-3xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-primary font-bold tracking-widest text-sm uppercase mb-4">Get Started Today</h2>
-          <h3 className="text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4">
+          <h3 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-4">
             Request your free estimate
           </h3>
           <p className="text-slate-400 text-lg">
