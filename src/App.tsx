@@ -365,7 +365,7 @@ const StatsBar = () => {
           {STATS.map((stat, i) => (
             <motion.div
               key={i}
-              className="text-center"
+              className={`text-center${i === STATS.length - 1 && STATS.length % 2 !== 0 ? ' col-span-2 lg:col-span-1' : ''}`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

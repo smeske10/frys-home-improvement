@@ -198,19 +198,19 @@ const config: SiteConfig = {
         {
             title: "Quality Craftsmanship",
             desc:
-                "Every detail matters. We take pride in finish work that stands the test of time and daily use.",
+                "Every detail matters. We take pride in work that stands the test of time.",
             icon: Sparkles,
         },
         {
             title: "Clear Estimates",
             desc:
-                "Scope and pricing are outlined up front. No surprises.",
+                "Scope and pricing are outlined up front. Any changes are discussed and approved before moving forward.",
             icon: ShieldCheck,
         },
         {
             title: "Seamless Process",
             desc:
-                "You’ll know what’s happening, what it costs, and what to expect as the project moves forward.",
+                "You’ll know what’s happening and what to expect as the project moves forward.",
             icon: Clock,
         },
     ],
@@ -279,7 +279,7 @@ const config: SiteConfig = {
     partners: [],
 
     trustBadges: [
-        { icon: Award, label: "5★ Google Reviews" },
+        { icon: Award, label: "Trusted Local Contractor" },
         { icon: Sparkles, label: "Quality Craftsmanship" },
     ],
 
