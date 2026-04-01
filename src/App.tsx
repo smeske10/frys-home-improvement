@@ -167,7 +167,7 @@ const ImageComparisonSlider = ({
   altBefore = 'Before',
   altAfter = 'After',
 }: ImageComparisonProps) => {
-  const [sliderPosition, setSliderPosition] = useState(30);
+  const [sliderPosition, setSliderPosition] = useState(70);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -325,8 +325,8 @@ const Hero = () => {
           <div className="relative">
             <div className="absolute -inset-4 bg-primary/20 blur-3xl rounded-full" />
             <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-5 lg:p-8 rounded-3xl">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-white font-bold text-xl">Recent Transformation</h3>
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-1 mb-6">
+                <h3 className="text-white font-bold text-lg">Recent Transformation</h3>
                 <span className="text-primary font-bold text-sm">Drag to Compare</span>
               </div>
               <ImageComparisonSlider
@@ -335,20 +335,6 @@ const Hero = () => {
                 altBefore={config.beforeAfterImages.altBefore}
                 altAfter={config.beforeAfterImages.altAfter}
               />
-              <div className="grid grid-cols-3 gap-4 mt-6">
-                <div className="text-center">
-                  <div className="text-white font-bold text-2xl">12</div>
-                  <div className="text-slate-400 text-xs uppercase tracking-wider">Weeks</div>
-                </div>
-                <div className="text-center border-x border-white/10">
-                  <div className="text-white font-bold text-2xl">{config.testimonials.averageRating}</div>
-                  <div className="text-slate-400 text-xs uppercase tracking-wider">Rating</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-white font-bold text-2xl">100%</div>
-                  <div className="text-slate-400 text-xs uppercase tracking-wider">Custom</div>
-                </div>
-              </div>
             </div>
           </div>
         </motion.div>
