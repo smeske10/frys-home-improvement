@@ -320,11 +320,11 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="hidden lg:block"
+          className="block"
         >
           <div className="relative">
             <div className="absolute -inset-4 bg-primary/20 blur-3xl rounded-full" />
-            <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl">
+            <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-5 lg:p-8 rounded-3xl">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-white font-bold text-xl">Recent Transformation</h3>
                 <span className="text-primary font-bold text-sm">Drag to Compare</span>
