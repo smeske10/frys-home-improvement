@@ -86,7 +86,7 @@ const config: SiteConfig = {
             "Home remodeling and improvements in Lycoming County. Kitchens, bathrooms, interior and exterior projects done with attention to detail and clear communication.",
         heroBadgeText: "5★ Rated · 9 Google Reviews",
         heroBackgroundImage:
-            "https://images.unsplash.com/photo-1556909211-6c024b7e2b04?auto=format&fit=crop&w=1920&q=80",
+            "https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/kitchen%20after%202.jpg?updatedAt=1774828024316",
         foundedYear: 2015,
         description:
             "Fry’s Home Improvement is a trusted home remodeling contractor serving Williamsport, PA. We handle kitchen remodeling, bathroom renovations, and full interior and exterior improvements — delivered with quality craftsmanship and personal service.",
