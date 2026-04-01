@@ -167,7 +167,7 @@ const ImageComparisonSlider = ({
   altBefore = 'Before',
   altAfter = 'After',
 }: ImageComparisonProps) => {
-  const [sliderPosition, setSliderPosition] = useState(50);
+  const [sliderPosition, setSliderPosition] = useState(30);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
