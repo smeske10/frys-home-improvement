@@ -361,7 +361,7 @@ const StatsBar = () => {
   return (
     <section className="bg-dark-accent border-y border-white/10">
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-8">
           {STATS.map((stat, i) => (
             <motion.div
               key={i}
@@ -590,123 +590,123 @@ const Testimonials = () => {
   );
 };
 
-const TrustedPartners = () => {
-  return (
-    <section className="py-20 bg-dark relative overflow-hidden">
-      {/* Inline styles for Glowing Shadow (CSS Houdini @property) */}
-      <style>{`
-        @property --glow-blur {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 20;
-        }
-        @property --glow-opacity {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 0.35;
-        }
-        @property --glow-scale {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 1.05;
-        }
-        @property --glow-rotate {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 0;
-        }
-        @property --glow-hue {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 155;
-        }
+// const TrustedPartners = () => {
+//   return (
+//     <section className="py-20 bg-dark relative overflow-hidden">
+//       {/* Inline styles for Glowing Shadow (CSS Houdini @property) */}
+//       <style>{`
+//         @property --glow-blur {
+//           syntax: "<number>";
+//           inherits: true;
+//           initial-value: 20;
+//         }
+//         @property --glow-opacity {
+//           syntax: "<number>";
+//           inherits: true;
+//           initial-value: 0.35;
+//         }
+//         @property --glow-scale {
+//           syntax: "<number>";
+//           inherits: true;
+//           initial-value: 1.05;
+//         }
+//         @property --glow-rotate {
+//           syntax: "<number>";
+//           inherits: true;
+//           initial-value: 0;
+//         }
+//         @property --glow-hue {
+//           syntax: "<number>";
+//           inherits: true;
+//           initial-value: 155;
+//         }
 
-        .partner-glow {
-          --glow-blur: 20;
-          --glow-opacity: 0.35;
-          --glow-scale: 1.05;
-          position: relative;
-          display: inline-flex;
-          border-radius: 1rem;
-          transition: --glow-blur 0.5s, --glow-opacity 0.5s, --glow-scale 0.5s;
-        }
+//         .partner-glow {
+//           --glow-blur: 20;
+//           --glow-opacity: 0.35;
+//           --glow-scale: 1.05;
+//           position: relative;
+//           display: inline-flex;
+//           border-radius: 1rem;
+//           transition: --glow-blur 0.5s, --glow-opacity 0.5s, --glow-scale 0.5s;
+//         }
 
-        .partner-glow:hover {
-          --glow-blur: 50;
-          --glow-opacity: 0.7;
-          --glow-scale: 1.25;
-        }
+//         .partner-glow:hover {
+//           --glow-blur: 50;
+//           --glow-opacity: 0.7;
+//           --glow-scale: 1.25;
+//         }
 
-        .partner-glow-effect {
-          position: absolute;
-          inset: 0;
-          z-index: 0;
-          pointer-events: none;
-        }
+//         .partner-glow-effect {
+//           position: absolute;
+//           inset: 0;
+//           z-index: 0;
+//           pointer-events: none;
+//         }
 
-        .partner-glow-effect::after {
-          content: "";
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 100%;
-          height: 100%;
-          background: hsl(calc(var(--glow-hue)), 80%, 55%);
-          transform: translate(-50%, -50%) rotate(calc(var(--glow-rotate) * 1deg)) scale(var(--glow-scale));
-          filter: blur(calc(var(--glow-blur) * 1px));
-          opacity: var(--glow-opacity);
-          animation: partner-rotate 6s linear infinite, partner-hue 10s linear infinite;
-          border-radius: 1rem;
-        }
+//         .partner-glow-effect::after {
+//           content: "";
+//           position: absolute;
+//           top: 50%;
+//           left: 50%;
+//           width: 100%;
+//           height: 100%;
+//           background: hsl(calc(var(--glow-hue)), 80%, 55%);
+//           transform: translate(-50%, -50%) rotate(calc(var(--glow-rotate) * 1deg)) scale(var(--glow-scale));
+//           filter: blur(calc(var(--glow-blur) * 1px));
+//           opacity: var(--glow-opacity);
+//           animation: partner-rotate 6s linear infinite, partner-hue 10s linear infinite;
+//           border-radius: 1rem;
+//         }
 
-        .partner-glow-content {
-          position: relative;
-          z-index: 1;
-          background: rgba(10, 10, 10, 0.95);
-          border-radius: 1rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-        }
+//         .partner-glow-content {
+//           position: relative;
+//           z-index: 1;
+//           background: rgba(10, 10, 10, 0.95);
+//           border-radius: 1rem;
+//           display: flex;
+//           align-items: center;
+//           justify-content: center;
+//           border: 1px solid rgba(255, 255, 255, 0.08);
+//         }
 
-        @keyframes partner-rotate {
-          from { --glow-rotate: 0; }
-          to { --glow-rotate: 360; }
-        }
+//         @keyframes partner-rotate {
+//           from { --glow-rotate: 0; }
+//           to { --glow-rotate: 360; }
+//         }
 
-        @keyframes partner-hue {
-          0% { --glow-hue: 140; }
-          50% { --glow-hue: 180; }
-          100% { --glow-hue: 140; }
-        }
-      `}</style>
+//         @keyframes partner-hue {
+//           0% { --glow-hue: 140; }
+//           50% { --glow-hue: 180; }
+//           100% { --glow-hue: 140; }
+//         }
+//       `}</style>
 
-      <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-center text-sm font-bold text-primary uppercase tracking-widest mb-12">
-          {config.sectionHeaders.partnersLabel}
-        </h2>
-        <div className="flex flex-wrap items-center justify-center gap-6">
-          {PARTNERS.map((partner, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="partner-glow"
-            >
-              <span className="partner-glow-effect" />
-              <div className="partner-glow-content px-8 py-4">
-                <span className="text-white font-bold text-lg tracking-tight">{partner}</span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+//       <div className="max-w-7xl mx-auto px-6">
+//         <h2 className="text-center text-sm font-bold text-primary uppercase tracking-widest mb-12">
+//           {config.sectionHeaders.partnersLabel}
+//         </h2>
+//         <div className="flex flex-wrap items-center justify-center gap-6">
+//           {PARTNERS.map((partner, i) => (
+//             <motion.div
+//               key={i}
+//               initial={{ opacity: 0, y: 20 }}
+//               whileInView={{ opacity: 1, y: 0 }}
+//               viewport={{ once: true }}
+//               transition={{ delay: i * 0.1 }}
+//               className="partner-glow"
+//             >
+//               <span className="partner-glow-effect" />
+//               <div className="partner-glow-content px-8 py-4">
+//                 <span className="text-white font-bold text-lg tracking-tight">{partner}</span>
+//               </div>
+//             </motion.div>
+//           ))}
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
 
 // const Financing = () => {
 //   return (
@@ -776,8 +776,7 @@ const Locations = () => {
                     <MapPin className="w-6 h-6" aria-hidden="true" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900 text-lg">{loc.state}</h4>
-                    <p className="text-slate-500 text-sm mb-2">{loc.address}</p>
+                    <h4 className="font-bold text-slate-900 text-lg">{loc.address}</h4>
                     <a href={`tel:${loc.phone}`} className="text-primary font-semibold flex items-center gap-2 hover:underline">
                       <Phone className="w-4 h-4" aria-hidden="true" /> {loc.phone}
                     </a>
@@ -802,10 +801,10 @@ const Locations = () => {
                 <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white">
                   <CheckCircle2 className="w-6 h-6" aria-hidden="true" />
                 </div>
-                <span className="font-bold text-slate-900">Fully Licensed & Insured</span>
+                <span className="font-bold text-slate-900">{config.title?.[1]}</span>
               </div>
               <p className="text-slate-500 text-sm">
-                We handle all local permits and zoning requirements for your specific municipality.
+                {config.title?.[0]}
               </p>
             </div>
           </div>
@@ -1430,7 +1429,7 @@ export default function App() {
             <Services onNavigateToService={navigateToService} />
             <HowItWorks />
             <Testimonials />
-            <TrustedPartners />
+            {/* <TrustedPartners /> */}
             {/* <Financing /> */}
             <Locations />
             <ContactForm />
