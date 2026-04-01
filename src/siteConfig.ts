@@ -83,7 +83,7 @@ const config: SiteConfig = {
         tagline: "Your Home, ",
         taglineAccent: "Reimagined.",
         heroSubheadline:
-            "Home remodeling and improvements in Lycoming County. Kitchens, bathrooms, and interior projects done with attention to detail and clear communication.",
+            "Home remodeling and improvements in Lycoming County. Kitchens, bathrooms, interior and exterior projects done with attention to detail and clear communication.",
         heroBadgeText: "5★ Rated · 9 Google Reviews",
         heroBackgroundImage:
             "https://images.unsplash.com/photo-1556909211-6c024b7e2b04?auto=format&fit=crop&w=1920&q=80",
@@ -336,7 +336,7 @@ const config: SiteConfig = {
             { title: 'Kitchen Remodeling', desc: "Full kitchen remodels including cabinets, countertops, flooring, and layout changes." },
             { title: 'Bathroom Remodeling', desc: "Bathroom updates and full remodels including tile, showers, vanities, and fixtures." },
             { title: 'Exterior & Outdoor Renovations', desc: "Exterior improvements including siding, windows, doors, and outdoor living spaces." },
-            { title: 'Interior Renovations', desc: "Interior improvements including flooring, drywall, trim, and material updates to refresh or transform any room in your home." },
+            { title: 'Interior Renovations', desc: "Interior improvements including flooring, drywall, trim, and material updates to refresh or transform any room." },
         ],
         whyUs: [
             "Local to Lycoming County",

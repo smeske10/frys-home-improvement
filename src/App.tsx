@@ -215,22 +215,22 @@ const ImageComparisonSlider = ({
       onTouchMove={handleTouchMove}
       onTouchEnd={handleEnd}
     >
-      {/* Before Image (Bottom Layer) */}
+      {/* After Image (Bottom Layer) */}
       <img
-        src={beforeImage}
-        alt={altBefore}
+        src={afterImage}
+        alt={altAfter}
         className="block h-full w-full object-cover"
         draggable="false"
       />
 
-      {/* After Image (Top Layer — clipped) */}
+      {/* Before Image (Top Layer — clipped) */}
       <div
         className="absolute top-0 left-0 h-full w-full overflow-hidden"
         style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
       >
         <img
-          src={afterImage}
-          alt={altAfter}
+          src={beforeImage}
+          alt={altBefore}
           className="h-full w-full object-cover"
           draggable="false"
         />
@@ -535,7 +535,7 @@ const Testimonials = () => {
             {config.sectionHeaders.testimonialsTitle}
           </h3>
           <p className="text-slate-500 text-lg mt-4">
-            Join <span className="text-primary font-bold">{config.sectionHeaders.testimonialsSubtitle}</span> who gave us a perfect 5-star rating on Google
+            <span className="text-primary font-bold">{config.sectionHeaders.testimonialsSubtitle}</span> who gave us a perfect 5-star rating on Google
           </p>
         </div>
 
