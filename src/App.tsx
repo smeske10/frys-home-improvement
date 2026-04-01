@@ -759,7 +759,7 @@ const Locations = () => {
   return (
     <section id="locations" className="section-padding bg-slate-50">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
           <div>
             <h2 className="text-primary font-bold tracking-widest text-sm uppercase mb-4">Service Areas</h2>
             <h3 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-8 tracking-tight">
@@ -796,9 +796,9 @@ const Locations = () => {
                 referrerPolicy="no-referrer"
               />
             </div>
-            <div className="absolute -bottom-10 -left-10 bg-white p-8 rounded-3xl shadow-xl max-w-xs hidden md:block">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white">
+            <div className="mt-4 md:mt-0 md:absolute md:-bottom-10 md:-left-10 bg-white p-6 md:p-8 rounded-3xl shadow-xl">
+              <div className="flex items-center gap-4 mb-3">
+                <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white flex-shrink-0">
                   <CheckCircle2 className="w-6 h-6" aria-hidden="true" />
                 </div>
                 <span className="font-bold text-slate-900">{config.title?.[1]}</span>
