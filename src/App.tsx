@@ -1201,7 +1201,7 @@ const ContactForm = () => {
                         <option value="planning" className="bg-dark">Just planning / exploring</option>
                       </select>
                     </div>
-                    <div>
+                    {/* <div>
                       <label className="block text-sm font-semibold text-slate-300 mb-2">Interested in Financing?</label>
                       <div className="flex gap-4">
                         {['Yes', 'No', 'Maybe'].map((option) => (
@@ -1218,7 +1218,7 @@ const ContactForm = () => {
                           </button>
                         ))}
                       </div>
-                    </div>
+                    </div> */}
                     <div>
                       <label className="block text-sm font-semibold text-slate-300 mb-2">How did you hear about us?</label>
                       <select
