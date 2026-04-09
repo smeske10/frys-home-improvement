@@ -40,7 +40,7 @@ export interface SiteConfig {
         stats: Array<{ value: string; label: string }>;
     };
     contact: {
-        phone: string; googleReviewsUrl?: string; googlePlaceId?: string; highlevelWebhookUrl?: string;
+        phone: string; email?: string; googleReviewsUrl?: string; googlePlaceId?: string; highlevelWebhookUrl?: string;
         locations: Array<{ city: string; address: string; phone: string }>;
         serviceAreaDescription: string; serviceAreaHeadline: string;
     };
@@ -263,6 +263,7 @@ const config: SiteConfig = {
 
     contact: {
         phone: "570-419-7032",
+        email: "fryshomeimprovement@gmail.com",
         highlevelWebhookUrl:
             "https://services.leadconnectorhq.com/hooks/2elBgdn2sRdrfHAEc3P5/webhook-trigger/b6765e59-7ebb-429e-b088-418e3ec9610c",
         googleReviewsUrl:

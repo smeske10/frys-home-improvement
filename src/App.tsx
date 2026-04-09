@@ -28,6 +28,8 @@ import GalleryCatalog from './pages/GalleryCatalog';
 import GalleryDetail from './pages/GalleryDetail';
 import ServiceDetail from './pages/ServiceDetail';
 import AboutUs from './pages/AboutUs';
+import TermsOfService from './pages/TermsOfService';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import { SocialIcons } from './SocialIcons';
 
 // ─── Routing ─────────────────────────────────────────────────────────
@@ -37,7 +39,9 @@ type PageState =
   | { id: 'about' }
   | { id: 'gallery' }
   | { id: 'gallery-detail'; galleryId: string }
-  | { id: 'service-detail'; serviceId: string };
+  | { id: 'service-detail'; serviceId: string }
+  | { id: 'terms' }
+  | { id: 'privacy' };
 
 const Navbar = ({ onGalleryClick, onAboutClick, onLogoClick, onNavLinkClick }: { onGalleryClick: () => void; onAboutClick: () => void; onLogoClick: () => void; onNavLinkClick: (section: string) => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -806,11 +810,15 @@ const Footer = ({
   onNavigateToSection,
   onNavigateToGallery,
   onNavigateToService,
+  onNavigateToTerms,
+  onNavigateToPrivacy,
 }: {
   onNavigateToAbout: () => void;
   onNavigateToSection: (section: string) => void;
   onNavigateToGallery: () => void;
   onNavigateToService: (serviceId: string) => void;
+  onNavigateToTerms: () => void;
+  onNavigateToPrivacy: () => void;
 }) => {
   return (
     <footer className="bg-dark text-white pt-20 pb-10">
@@ -864,8 +872,8 @@ const Footer = ({
         <div className="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-slate-500 text-sm">
           <p>© {new Date().getFullYear()} {config.business.nameLine1} {config.business.nameLine2}. All rights reserved.</p>
           <div className="flex gap-8">
-            <a href="#" className="hover:text-white transition-colors duration-200">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors duration-200">Terms of Service</a>
+            <button onClick={onNavigateToPrivacy} className="hover:text-white transition-colors duration-200 cursor-pointer">Privacy Policy</button>
+            <button onClick={onNavigateToTerms} className="hover:text-white transition-colors duration-200 cursor-pointer">Terms of Service</button>
           </div>
         </div>
       </div>
@@ -889,6 +897,7 @@ const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [consentChecked, setConsentChecked] = useState(false);
   const turnstileRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
   const [formData, setFormData] = useState({
@@ -930,6 +939,7 @@ const ContactForm = () => {
         try { win.turnstile.remove(widgetIdRef.current); } catch { /* ignore */ }
         widgetIdRef.current = null;
         setTurnstileToken(null);
+        setConsentChecked(false);
       }
     };
   }, [currentStep]);
@@ -1324,6 +1334,19 @@ const ContactForm = () => {
                   <div className="mt-6">
                     <div ref={turnstileRef} />
                   </div>
+
+                  {/* Consent checkbox */}
+                  <label className="flex items-start gap-3 mt-5 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={consentChecked}
+                      onChange={(e) => setConsentChecked(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 shrink-0 rounded border-white/20 bg-white/5 accent-primary cursor-pointer"
+                    />
+                    <span className="text-slate-400 text-xs leading-relaxed group-hover:text-slate-300 transition-colors">
+                      By submitting this form, you agree to be contacted by Fry's Home Improvement regarding your request. Your information will not be sold or shared.
+                    </span>
+                  </label>
                 </div>
               )}
             </motion.div>
@@ -1364,7 +1387,7 @@ const ContactForm = () => {
                 )}
                 <motion.button
                   onClick={handleSubmit}
-                  disabled={isSubmitting || !turnstileToken}
+                  disabled={isSubmitting || !turnstileToken || !consentChecked}
                   whileTap={{ scale: 0.95 }}
                   className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-dark px-6 py-2.5 rounded-xl font-bold transition-colors duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
@@ -1493,12 +1516,20 @@ export default function App() {
             onNavigateHome={() => navigate({ id: 'home' })}
           />
         )}
+        {page.id === 'terms' && (
+          <TermsOfService onNavigateHome={() => navigate({ id: 'home' })} />
+        )}
+        {page.id === 'privacy' && (
+          <PrivacyPolicy onNavigateHome={() => navigate({ id: 'home' })} />
+        )}
       </main>
       <Footer
         onNavigateToAbout={navigateToAbout}
         onNavigateToSection={handleNavLinkClick}
         onNavigateToGallery={() => navigate({ id: 'gallery' })}
         onNavigateToService={navigateToService}
+        onNavigateToTerms={() => navigate({ id: 'terms' })}
+        onNavigateToPrivacy={() => navigate({ id: 'privacy' })}
       />
       <ConsentBanner />
     </div>
