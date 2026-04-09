@@ -94,7 +94,7 @@ const config: SiteConfig = {
         logoUrl:
             "https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys.png",
         ogImageUrl:
-            "https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/kitchen%20after%202.jpg?updatedAt=1774828024316",
+            "https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys/kitchen%20after.jpg?updatedAt=1774828024549",
         siteUrl: "https://www.fryshomeimprovement.com",
         socialLinks: {
             facebook:
