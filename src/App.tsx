@@ -32,6 +32,19 @@ import TermsOfService from './pages/TermsOfService';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import { SocialIcons } from './SocialIcons';
 
+// ─── Hooks ───────────────────────────────────────────────────────────
+
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+  return isMobile;
+};
+
 // ─── Routing ─────────────────────────────────────────────────────────
 
 type PageState =
@@ -372,6 +385,7 @@ const StatsBar = () => {
 };
 
 const LifestylePillars = () => {
+  const isMobile = useIsMobile();
   return (
     <section className="section-padding bg-white">
       <div className="max-w-7xl mx-auto px-6">
@@ -385,10 +399,12 @@ const LifestylePillars = () => {
           {LIFESTYLE_PILLARS.map((pillar, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15 }}
+              {...(!isMobile && {
+                initial: { opacity: 0, y: 20 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true },
+                transition: { delay: i * 0.15 },
+              })}
               className="text-center p-10 rounded-3xl bg-slate-50 border border-slate-100 transition-shadow duration-200 hover:shadow-lg"
             >
               <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mx-auto mb-6">
@@ -405,6 +421,7 @@ const LifestylePillars = () => {
 };
 
 const Services = ({ onNavigateToService }: { onNavigateToService: (serviceId: string) => void }) => {
+  const isMobile = useIsMobile();
   return (
     <section id="services" className="section-padding bg-slate-50">
       <div className="max-w-7xl mx-auto px-2">
@@ -422,10 +439,12 @@ const Services = ({ onNavigateToService }: { onNavigateToService: (serviceId: st
           {SERVICES.map((service, i) => (
             <motion.div
               key={service.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
+              {...(!isMobile && {
+                initial: { opacity: 0, y: 20 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true },
+                transition: { delay: i * 0.1 },
+              })}
               className="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
               onClick={() => onNavigateToService(service.id)}
             >
