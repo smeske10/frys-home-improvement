@@ -887,6 +887,8 @@ const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<string | null>(null);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -903,13 +905,32 @@ const ContactForm = () => {
   });
 
   useEffect(() => {
-    (window as Record<string, unknown>).__onTurnstileSuccess = (token: string) => setTurnstileToken(token);
-    (window as Record<string, unknown>).__onTurnstileExpired = () => setTurnstileToken(null);
-    return () => {
-      delete (window as Record<string, unknown>).__onTurnstileSuccess;
-      delete (window as Record<string, unknown>).__onTurnstileExpired;
+    if (currentStep !== 3) return;
+
+    const win = window as Record<string, any>;
+
+    const tryRender = () => {
+      if (!win.turnstile || !turnstileRef.current || widgetIdRef.current !== null) return;
+      widgetIdRef.current = win.turnstile.render(turnstileRef.current, {
+        sitekey: TURNSTILE_SITE_KEY,
+        callback: (token: string) => setTurnstileToken(token),
+        'expired-callback': () => setTurnstileToken(null),
+        theme: 'dark',
+      });
     };
-  }, []);
+
+    tryRender();
+    const timer = setTimeout(tryRender, 600);
+
+    return () => {
+      clearTimeout(timer);
+      if (widgetIdRef.current !== null && win.turnstile) {
+        try { win.turnstile.remove(widgetIdRef.current); } catch { /* ignore */ }
+        widgetIdRef.current = null;
+        setTurnstileToken(null);
+      }
+    };
+  }, [currentStep]);
 
   const updateField = (field: string, value: string | string[]) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -1297,15 +1318,9 @@ const ContactForm = () => {
                     </div>
                   </div>
 
-                  {/* Cloudflare Turnstile */}
+                  {/* Cloudflare Turnstile — explicitly rendered via useEffect */}
                   <div className="mt-6">
-                    <div
-                      className="cf-turnstile"
-                      data-sitekey={TURNSTILE_SITE_KEY}
-                      data-callback="__onTurnstileSuccess"
-                      data-expired-callback="__onTurnstileExpired"
-                      data-theme="dark"
-                    />
+                    <div ref={turnstileRef} />
                   </div>
                 </div>
               )}
