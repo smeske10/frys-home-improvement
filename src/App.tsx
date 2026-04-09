@@ -429,7 +429,9 @@ const Services = ({ onNavigateToService }: { onNavigateToService: (serviceId: st
                 <img
                   src={service.image}
                   alt={`${service.title} — ${service.desc}`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover opacity-0 group-hover:scale-110"
+                  style={{ transition: 'opacity 0.4s ease, transform 0.7s ease' }}
+                  onLoad={(e) => { e.currentTarget.style.opacity = '1'; }}
                 />
                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm p-3 rounded-2xl text-primary shadow-lg">
                   <service.icon className="w-6 h-6" aria-hidden="true" />
