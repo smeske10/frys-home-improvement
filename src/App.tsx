@@ -425,12 +425,11 @@ const Services = ({ onNavigateToService }: { onNavigateToService: (serviceId: st
               className="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
               onClick={() => onNavigateToService(service.id)}
             >
-              <div className="h-64 overflow-hidden relative">
+              <div className="h-64 overflow-hidden relative bg-slate-200">
                 <img
                   src={service.image}
                   alt={`${service.title} — ${service.desc}`}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  loading="lazy"
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm p-3 rounded-2xl text-primary shadow-lg">
                   <service.icon className="w-6 h-6" aria-hidden="true" />
@@ -879,12 +878,15 @@ const FORM_STEPS = [
   { id: 3, label: 'Review & Submit' }
 ];
 
+const TURNSTILE_SITE_KEY = '0x4AAAAAAC2bZmtE1tIqhR0M';
+
 const ContactForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -899,6 +901,15 @@ const ContactForm = () => {
     financing: '',
     hearAbout: ''
   });
+
+  useEffect(() => {
+    (window as Record<string, unknown>).__onTurnstileSuccess = (token: string) => setTurnstileToken(token);
+    (window as Record<string, unknown>).__onTurnstileExpired = () => setTurnstileToken(null);
+    return () => {
+      delete (window as Record<string, unknown>).__onTurnstileSuccess;
+      delete (window as Record<string, unknown>).__onTurnstileExpired;
+    };
+  }, []);
 
   const updateField = (field: string, value: string | string[]) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -928,6 +939,7 @@ const ContactForm = () => {
   };
 
   const handleSubmit = async () => {
+    if (!turnstileToken) return;
     setIsSubmitting(true);
     setSubmitError(false);
 
@@ -950,6 +962,7 @@ const ContactForm = () => {
           financing: formData.financing,
           hearAbout: formData.hearAbout,
           source: `${config.business.nameLine1} ${config.business.nameLine2} Website`,
+          'cf-turnstile-response': turnstileToken,
         }),
       });
       if (!res.ok) throw new Error('Submission failed');
@@ -1283,6 +1296,17 @@ const ContactForm = () => {
                       </div>
                     </div>
                   </div>
+
+                  {/* Cloudflare Turnstile */}
+                  <div className="mt-6">
+                    <div
+                      className="cf-turnstile"
+                      data-sitekey={TURNSTILE_SITE_KEY}
+                      data-callback="__onTurnstileSuccess"
+                      data-expired-callback="__onTurnstileExpired"
+                      data-theme="dark"
+                    />
+                  </div>
                 </div>
               )}
             </motion.div>
@@ -1318,9 +1342,12 @@ const ContactForm = () => {
                 {submitError && (
                   <p className="text-red-400 text-xs">Something went wrong — please try again.</p>
                 )}
+                {!turnstileToken && !isSubmitting && (
+                  <p className="text-slate-500 text-xs">Complete the verification above to submit.</p>
+                )}
                 <motion.button
                   onClick={handleSubmit}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !turnstileToken}
                   whileTap={{ scale: 0.95 }}
                   className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-dark px-6 py-2.5 rounded-xl font-bold transition-colors duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >

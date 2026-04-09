@@ -18,10 +18,13 @@ const metaDesc = document.querySelector('meta[name="description"]');
 if (metaDesc) metaDesc.setAttribute('content', config.business.metaDescription);
 
 if (config.business.logoUrl) {
-  const favicon = document.querySelector<HTMLLinkElement>('link[rel="icon"]') ?? document.createElement('link') as HTMLLinkElement;
-  favicon.rel = 'icon';
+  let favicon = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+  if (!favicon) {
+    favicon = document.createElement('link');
+    favicon.rel = 'icon';
+    document.head.appendChild(favicon);
+  }
   favicon.href = config.business.logoUrl;
-  document.head.appendChild(favicon);
 }
 
 createRoot(document.getElementById('root')!).render(

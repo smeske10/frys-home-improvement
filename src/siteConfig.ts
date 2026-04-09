@@ -92,6 +92,9 @@ const config: SiteConfig = {
             "Fry’s Home Improvement is a trusted home remodeling contractor serving Williamsport, PA. We handle kitchen remodeling, bathroom renovations, and full interior and exterior improvements — delivered with quality craftsmanship and personal service.",
         logoUrl:
             "https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys.png",
+        ogImageUrl:
+            "https://ik.imagekit.io/i6kon7cps/Contractors/Frys/Frys.png",
+        siteUrl: "https://www.fryshomeimprovement.com",
         socialLinks: {
             facebook:
                 "https://www.facebook.com/profile.php?id=100088428143218",

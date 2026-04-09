@@ -1,6 +1,7 @@
 import type { Handler, HandlerEvent } from '@netlify/functions';
 
 const HIGHLEVEL_WEBHOOK_URL = process.env.HIGHLEVEL_WEBHOOK_URL ?? '';
+const TURNSTILE_SECRET = process.env.TURNSTILE_SECRET_KEY ?? '';
 
 export const handler: Handler = async (event: HandlerEvent) => {
   if (event.httpMethod !== 'POST') {
@@ -12,6 +13,26 @@ export const handler: Handler = async (event: HandlerEvent) => {
     body = JSON.parse(event.body ?? '{}');
   } catch {
     return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON' }) };
+  }
+
+  // Verify Cloudflare Turnstile token
+  const turnstileToken = body['cf-turnstile-response'] as string | undefined;
+  if (!turnstileToken) {
+    return { statusCode: 400, body: JSON.stringify({ error: 'Missing verification token' }) };
+  }
+
+  if (TURNSTILE_SECRET) {
+    const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ secret: TURNSTILE_SECRET, response: turnstileToken }).toString(),
+    });
+    const verifyData = await verifyRes.json() as { success: boolean };
+    if (!verifyData.success) {
+      return { statusCode: 400, body: JSON.stringify({ error: 'Bot verification failed' }) };
+    }
+  } else {
+    console.warn('TURNSTILE_SECRET_KEY not set — skipping bot verification');
   }
 
   // Require at least one contact identifier
