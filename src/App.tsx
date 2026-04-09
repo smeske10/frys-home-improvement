@@ -31,19 +31,7 @@ import AboutUs from './pages/AboutUs';
 import TermsOfService from './pages/TermsOfService';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import { SocialIcons } from './SocialIcons';
-
-// ─── Hooks ───────────────────────────────────────────────────────────
-
-const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 767px)');
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
-  return isMobile;
-};
+import useIsMobile from './hooks/useIsMobile';
 
 // ─── Routing ─────────────────────────────────────────────────────────
 
@@ -485,7 +473,7 @@ const Services = ({ onNavigateToService }: { onNavigateToService: (serviceId: st
 
 const HowItWorks = () => {
   return (
-    <section className="section-padding bg-dark text-white">
+    <section id="process" className="section-padding bg-dark text-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-primary font-bold tracking-widest text-sm uppercase mb-4">
@@ -880,7 +868,7 @@ const Footer = ({
               <li><button onClick={() => onNavigateToSection('process')} className="hover:text-primary transition-colors duration-200 cursor-pointer">Our Process</button></li>
               <li><button onClick={onNavigateToGallery} className="hover:text-primary transition-colors duration-200 cursor-pointer">Project Gallery</button></li>
               <li><button onClick={() => onNavigateToSection('testimonials')} className="hover:text-primary transition-colors duration-200 cursor-pointer">Reviews</button></li>
-              <li><button onClick={() => onNavigateToSection('contact')} className="hover:text-primary transition-colors duration-200 cursor-pointer">Careers</button></li>
+              {/* <li><button onClick={() => onNavigateToSection('contact')} className="hover:text-primary transition-colors duration-200 cursor-pointer">Careers</button></li> */}
               <li><button onClick={() => onNavigateToSection('contact')} className="hover:text-primary transition-colors duration-200 cursor-pointer">Contact</button></li>
             </ul>
           </div>

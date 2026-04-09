@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import useIsMobile from '../hooks/useIsMobile';
 import { ArrowRight, ChevronRight, Phone, CheckCircle2 } from 'lucide-react';
 import { SERVICES } from '../constants';
 import config from '../siteConfig';
@@ -12,6 +13,7 @@ interface ServiceDetailProps {
 }
 
 const ServiceDetail = ({ serviceId, onNavigateToContact, onNavigateToService, onNavigateHome }: ServiceDetailProps) => {
+  const isMobile = useIsMobile();
   const service = SERVICES.find(s => s.id === serviceId);
   const otherServices = SERVICES.filter(s => s.id !== serviceId);
 
@@ -155,10 +157,12 @@ const ServiceDetail = ({ serviceId, onNavigateToContact, onNavigateToService, on
               {otherServices.slice(0, 6).map((s, i) => (
                 <motion.div
                   key={s.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
+                  {...(!isMobile && {
+                    initial: { opacity: 0, y: 20 },
+                    whileInView: { opacity: 1, y: 0 },
+                    viewport: { once: true },
+                    transition: { delay: i * 0.1 },
+                  })}
                   className="group bg-slate-50 rounded-3xl overflow-hidden border border-slate-200 hover:shadow-lg transition-all duration-300 cursor-pointer"
                   onClick={() => onNavigateToService(s.id)}
                 >
