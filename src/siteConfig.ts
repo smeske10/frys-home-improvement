@@ -18,6 +18,7 @@ export interface SiteConfig {
         heroSubheadline: string; heroBadgeText: string;
         heroBackgroundImage: string; foundedYear: number;
         description: string; logoUrl?: string;
+        ogImageUrl?: string; siteUrl?: string;
         socialLinks: { instagram?: string; facebook?: string; houzz?: string; youtube?: string };
     };
     theme: { primary: string; primaryHover: string; dark: string; darkAccent: string };
