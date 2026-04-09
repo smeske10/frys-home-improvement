@@ -35,7 +35,7 @@ const nameLine1     = extract('nameLine1');
 const nameLine2     = extract('nameLine2');
 const gtmId         = extract('gtmId');
 
-const ogImageAlt = `${nameLine1} ${nameLine2} logo`;
+const ogImageAlt = `Home remodeling work by ${nameLine1} ${nameLine2}`;
 
 // ── Replace tokens ─────────────────────────────────────────────────────────
 
