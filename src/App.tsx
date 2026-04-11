@@ -868,7 +868,7 @@ const Footer = ({
               <li><button onClick={() => onNavigateToSection('process')} className="hover:text-primary transition-colors duration-200 cursor-pointer">Our Process</button></li>
               <li><button onClick={onNavigateToGallery} className="hover:text-primary transition-colors duration-200 cursor-pointer">Project Gallery</button></li>
               <li><button onClick={() => onNavigateToSection('testimonials')} className="hover:text-primary transition-colors duration-200 cursor-pointer">Reviews</button></li>
-              {/* <li><button onClick={() => onNavigateToSection('contact')} className="hover:text-primary transition-colors duration-200 cursor-pointer">Careers</button></li> */}
+              {/* <li><button onClick={() => onNavigateToSection('careers')} className="hover:text-primary transition-colors duration-200 cursor-pointer">Careers</button></li> */}
               <li><button onClick={() => onNavigateToSection('contact')} className="hover:text-primary transition-colors duration-200 cursor-pointer">Contact</button></li>
             </ul>
           </div>
@@ -878,6 +878,7 @@ const Footer = ({
 
         <div className="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-slate-500 text-sm">
           <p>© {new Date().getFullYear()} {config.business.nameLine1} {config.business.nameLine2}. All rights reserved.</p>
+          <p className="text-center">Managed by <a href="https://www.visionventure.ai/contractor-offering" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-200">Vision Venture</a></p>
           <div className="flex gap-8">
             <button onClick={onNavigateToPrivacy} className="hover:text-white transition-colors duration-200 cursor-pointer">Privacy Policy</button>
             <button onClick={onNavigateToTerms} className="hover:text-white transition-colors duration-200 cursor-pointer">Terms of Service</button>
