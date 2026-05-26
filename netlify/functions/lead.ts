@@ -1,6 +1,9 @@
 import type { Handler, HandlerEvent } from '@netlify/functions';
 
-const HIGHLEVEL_WEBHOOK_URL = process.env.HIGHLEVEL_WEBHOOK_URL ?? '';
+const HIGHLEVEL_WEBHOOK_URLS = [
+  process.env.HIGHLEVEL_WEBHOOK_URL ?? '',
+  process.env.HIGHLEVEL_WEBHOOK_URL_2 ?? '',
+].filter(Boolean);
 const TURNSTILE_SECRET = process.env.TURNSTILE_SECRET_KEY ?? '';
 
 export const handler: Handler = async (event: HandlerEvent) => {
@@ -51,21 +54,26 @@ export const handler: Handler = async (event: HandlerEvent) => {
     userAgent: event.headers['user-agent'] ?? '',
   };
 
-  if (!HIGHLEVEL_WEBHOOK_URL) {
-    console.warn('HIGHLEVEL_WEBHOOK_URL not set — skipping webhook');
+  if (HIGHLEVEL_WEBHOOK_URLS.length === 0) {
+    console.warn('No HIGHLEVEL_WEBHOOK_URL set — skipping webhook');
     return { statusCode: 200, body: JSON.stringify({ ok: true, warn: 'webhook not configured' }) };
   }
 
   try {
-    const res = await fetch(HIGHLEVEL_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+    const results = await Promise.all(
+      HIGHLEVEL_WEBHOOK_URLS.map(url =>
+        fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+      )
+    );
 
-    if (!res.ok) {
-      const text = await res.text();
-      console.error('HighLevel webhook error:', res.status, text);
+    const failed = results.filter(r => !r.ok);
+    if (failed.length > 0) {
+      const texts = await Promise.all(failed.map(r => r.text()));
+      console.error('HighLevel webhook error(s):', texts);
       return { statusCode: 502, body: JSON.stringify({ error: 'Webhook delivery failed' }) };
     }
 
